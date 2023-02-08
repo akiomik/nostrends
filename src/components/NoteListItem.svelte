@@ -21,7 +21,7 @@
     </p>
   </div>
 
-  <!-- <hr /> -->
-  <!-- TODO: show reactions -->
-  <!-- <footer class="card-footer p-4">(footer)</footer> -->
+  <hr />
+
+  <footer class="card-footer p-4">+{note.reactions} reactions</footer>
 </div>

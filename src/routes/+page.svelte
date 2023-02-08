@@ -3,7 +3,7 @@
   import { browser } from '$app/environment';
   import { relayInit } from 'nostr-tools';
   import type { Event } from 'nostr-tools';
-  import { EventCountJsonLoader } from '../lib/EventCountJsonLoader';
+  import { ReactionCountJsonLoader } from '../lib/ReactionCountJsonLoader';
   import { RelayHelper } from '../lib/RelayHelper';
   import { Note } from '../lib/Note';
   import NoteListItem from '../components/NoteListItem.svelte';
@@ -11,6 +11,7 @@
   const relay = relayInit('wss://relay.damus.io');
   let noteEvents: Event[] = [];
   const profileEventByPubkey: { [key: string]: Event } = {};
+  const reactionCounts = ReactionCountJsonLoader.loadTopNRank(30);
 
   const uniq = (xs: [unknown]) => Array.from(new Set(xs));
 
@@ -24,8 +25,7 @@
         console.error(`failed to connect to ${relay.url}`);
       });
 
-      const eventCounts = EventCountJsonLoader.loadTopNRank(30);
-      const noteIds = Object.keys(eventCounts);
+      const noteIds = Object.keys(reactionCounts);
       noteEvents = await RelayHelper.asyncSub(relay, [{ ids: noteIds }]);
       const pubkeys = uniq(noteEvents.map((note) => note.pubkey));
       const profileEvents = await RelayHelper.asyncSub(relay, [{ authors: pubkeys, kinds: [0] }]);
@@ -39,7 +39,9 @@
     }
   });
 
-  $: notes = noteEvents.map((note) => Note.fromEvent(note, profileEventByPubkey[note.pubkey]));
+  $: notes = noteEvents.map((note) =>
+    Note.fromEvent(note, profileEventByPubkey[note.pubkey], reactionCounts[note.id])
+  );
 </script>
 
 <h1>Nostrends</h1>
