@@ -3,13 +3,16 @@
   import { browser } from '$app/environment';
   import { relayInit } from 'nostr-tools';
   import { EventCountJsonLoader } from '../lib/EventCountJsonLoader';
+  import { RelayHelper } from '../lib/RelayHelper';
   import NoteListItem from '../components/NoteListItem.svelte';
 
   const relay = relayInit('wss://relay.damus.io');
-  const notes = {};
-  let users = {};
+  let notes = [];
+  let usersByPubkey = {};
 
-  onMount(() => {
+  const uniq = (xs: [unknown]) => Array.from(new Set(xs));
+
+  onMount(async () => {
     if (browser) {
       relay.connect();
       relay.on('connect', () => {
@@ -18,6 +21,13 @@
       relay.on('error', () => {
         console.error(`failed to connect to ${relay.url}`);
       });
+
+      const eventCounts = EventCountJsonLoader.loadTopNRank(30);
+      const noteIds = Object.keys(eventCounts);
+      notes = await RelayHelper.asyncSub(relay, [{ ids: noteIds }]);
+      const pubkeys = uniq(notes.map((note) => note.pubkey));
+      const users = await RelayHelper.asyncSub(relay, [{ authors: pubkeys, kinds: [0] }]);
+      users.forEach((user) => (usersByPubkey[user.pubkey] = user));
     }
   });
 
@@ -27,22 +37,8 @@
     }
   });
 
-  const eventCounts = EventCountJsonLoader.loadTopNRank(30);
-  const noteIds = Object.keys(eventCounts);
-  const noteSub = relay.sub([{ ids: noteIds }]);
-  noteSub.on('event', (note) => {
-    notes[note.id] = note;
-
-    if (users[note.pubkey] == null) {
-      const userSub = relay.sub([{ authors: [note.pubkey], kinds: [0] }]);
-      userSub.on('event', (user) => (users[user.pubkey] = user));
-      userSub.on('eose', () => userSub.unsub());
-    }
-  });
-  noteSub.on('eose', () => noteSub.unsub());
-
-  $: xs = Object.values(notes).map((note) => {
-    return [note, users[note.pubkey]];
+  $: xs = notes.map((note) => {
+    return [note, usersByPubkey[note.pubkey]];
   });
 </script>
 
