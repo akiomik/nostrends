@@ -39,6 +39,7 @@
   "type": "module",
   "dependencies": {
     "linkify-plugin-hashtag": "^4.1.0",
+    "linkify-plugin-mention": "^4.1.0",
     "linkify-string": "^4.1.0",
     "linkifyjs": "^4.1.0",
     "nostr-tools": "^1.2.1",
