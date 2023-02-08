@@ -7,6 +7,7 @@
   import { RelayHelper } from '../lib/RelayHelper';
   import { Note } from '../lib/Note';
   import NoteListItem from '../components/NoteListItem.svelte';
+  import LoadingSpinner from '../components/LoadingSpinner.svelte';
 
   const relay = relayInit('wss://relay.damus.io');
   let noteEvents: Event[] = [];
@@ -63,4 +64,6 @@
       <NoteListItem {note} />
     {/if}
   </div>
+{:else}
+  <LoadingSpinner />
 {/each}
