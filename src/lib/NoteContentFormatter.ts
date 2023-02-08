@@ -1,6 +1,7 @@
 import sanitizeHtml from 'sanitize-html';
 import * as linkify from 'linkifyjs'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import 'linkify-plugin-hashtag';
+import 'linkify-plugin-mention';
 import linkifyStr from 'linkify-string';
 
 export class NoteContentFormatter {
@@ -14,6 +15,8 @@ export class NoteContentFormatter {
       format: (value: string, type: string) => {
         if (type === 'url' && !value.startsWith('http')) {
           return '';
+        } else if (type === 'mention') {
+          return `${value.substring(0, 9)}:${value.substring(value.length - 8, value.length)}`;
         }
 
         return value;
@@ -21,6 +24,10 @@ export class NoteContentFormatter {
       formatHref: (href: string, type: string) => {
         if (type === 'hashtag') {
           return `https://snort.social/t/${href.substring(1)}`;
+        } else if (type === 'mention' && href.startsWith('/npub')) {
+          return `https://snort.social/p/${href.substring(1)}`;
+        } else if (type === 'mention' && href.startsWith('/note')) {
+          return `https://snort.social/e/${href.substring(1)}`;
         } else {
           return href;
         }

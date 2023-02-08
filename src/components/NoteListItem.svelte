@@ -22,7 +22,7 @@
     {/if}
 
     <p class="text-ellipsis overflow-hidden mt-4">
-      {@html NoteContentFormatter.format(note.content)}
+      {@html NoteContentFormatter.format(note.modifiedContent())}
     </p>
   </div>
 

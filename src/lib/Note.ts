@@ -32,6 +32,28 @@ export class Note {
     );
   }
 
+  public modifiedContent(): string {
+    let content = this.content;
+    this.tags.forEach((tag, i) => {
+      if (!tag.isEvent() && !tag.isPubkey()) {
+        return;
+      }
+
+      const regexp = new RegExp(`#\\[${i}\\]`, 'g');
+      let id: string;
+
+      if (tag.isEvent()) {
+        id = nip19.noteEncode(tag.value);
+      } else {
+        id = nip19.npubEncode(tag.value); // TODO: show name
+      }
+
+      content = content.replace(regexp, `@${id}`);
+    });
+
+    return content;
+  }
+
   public nip19Id(): string | null {
     if (this.id == null) {
       return null;
