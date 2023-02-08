@@ -12,7 +12,7 @@
 
   <div class="text-ellipsis overflow-hidden">
     <p class="font-bold text-ellipsis overflow-hidden">
-      {profile?.displayName || profile?.name || 'nostrich'}
+      {profile?.displayName || profile?.name || profile?.pubkey || 'nostrich'}
     </p>
 
     {#if profile?.nip05}
