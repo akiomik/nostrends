@@ -1,3 +1,4 @@
+import { nip19 } from 'nostr-tools';
 import type { Event } from 'nostr-tools';
 
 export class Profile {
@@ -20,5 +21,13 @@ export class Profile {
       content.nip05,
       event.pubkey
     );
+  }
+
+  public nip19Id(): string | null {
+    if (this.id == null) {
+      return null;
+    }
+
+    return nip19.noteEncode(this.id);
   }
 }
