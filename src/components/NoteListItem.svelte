@@ -9,7 +9,12 @@
 <div class="card">
   <div class="p-4">
     {#if note.profile?.id}
-      <a href="https://snort.social/p/{note.profile.nip19Id()}" class="unstyled">
+      <a
+        href="https://snort.social/p/{note.profile.nip19Id()}"
+        target="_blank"
+        rel="noreferrer"
+        class="unstyled"
+      >
         <NoteListItemProfile profile={note.profile} />
       </a>
     {:else}
