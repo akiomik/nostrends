@@ -48,6 +48,7 @@
 <svelte:head>
   <title>Nostrends</title>
   <meta name="description" content="What's trending on nostr?" />
+  <meta name="keywords" content="nostr,trends,notes,damus,snort" />
 </svelte:head>
 
 <h1>Nostrends</h1>
