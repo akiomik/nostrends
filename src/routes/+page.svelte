@@ -2,13 +2,15 @@
   import { onMount, onDestroy } from 'svelte';
   import { browser } from '$app/environment';
   import { relayInit } from 'nostr-tools';
+  import type { Event } from 'nostr-tools';
   import { EventCountJsonLoader } from '../lib/EventCountJsonLoader';
   import { RelayHelper } from '../lib/RelayHelper';
+  import { Note } from '../lib/Note';
   import NoteListItem from '../components/NoteListItem.svelte';
 
   const relay = relayInit('wss://relay.damus.io');
-  let notes = [];
-  let usersByPubkey = {};
+  let noteEvents: Event[] = [];
+  const profileEventByPubkey: { [key: string]: Event } = {};
 
   const uniq = (xs: [unknown]) => Array.from(new Set(xs));
 
@@ -24,10 +26,10 @@
 
       const eventCounts = EventCountJsonLoader.loadTopNRank(30);
       const noteIds = Object.keys(eventCounts);
-      notes = await RelayHelper.asyncSub(relay, [{ ids: noteIds }]);
-      const pubkeys = uniq(notes.map((note) => note.pubkey));
-      const users = await RelayHelper.asyncSub(relay, [{ authors: pubkeys, kinds: [0] }]);
-      users.forEach((user) => (usersByPubkey[user.pubkey] = user));
+      noteEvents = await RelayHelper.asyncSub(relay, [{ ids: noteIds }]);
+      const pubkeys = uniq(noteEvents.map((note) => note.pubkey));
+      const profileEvents = await RelayHelper.asyncSub(relay, [{ authors: pubkeys, kinds: [0] }]);
+      profileEvents.forEach((profile) => (profileEventByPubkey[profile.pubkey] = profile));
     }
   });
 
@@ -37,15 +39,13 @@
     }
   });
 
-  $: xs = notes.map((note) => {
-    return [note, usersByPubkey[note.pubkey]];
-  });
+  $: notes = noteEvents.map((note) => Note.fromEvent(note, profileEventByPubkey[note.pubkey]));
 </script>
 
 <h1>Nostrends</h1>
 
 <p>What's trending on nostr world?</p>
 
-{#each xs as x}
-  <NoteListItem note={x[0]} user={x[1]} />
+{#each notes as note}
+  <NoteListItem {note} />
 {/each}
