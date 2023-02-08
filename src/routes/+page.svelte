@@ -47,12 +47,12 @@
 
 <svelte:head>
   <title>Nostrends</title>
-  <meta name="description" content="What's trending on nostr world?" />
+  <meta name="description" content="What's trending on nostr?" />
 </svelte:head>
 
 <h1>Nostrends</h1>
 
-<p>What's trending on <a href="https://nostr.com">nostr</a> world?</p>
+<p>What's trending on <a href="https://nostr.com">nostr</a>?</p>
 
 {#each notes as note}
   <div class="my-8">
