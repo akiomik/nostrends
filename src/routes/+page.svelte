@@ -47,5 +47,18 @@
 <p>What's trending on nostr world?</p>
 
 {#each notes as note}
-  <NoteListItem {note} />
+  <div class="m-8">
+    {#if note.id}
+      <a
+        href="https://snort.social/e/{note.nip19Id()}"
+        target="_blank"
+        rel="noreferrer"
+        class="unstyled"
+      >
+        <NoteListItem {note} />
+      </a>
+    {:else}
+      <NoteListItem {note} />
+    {/if}
+  </div>
 {/each}
