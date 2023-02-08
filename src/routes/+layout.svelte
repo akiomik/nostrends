@@ -6,7 +6,7 @@
 </script>
 
 <AppShell>
-  <div class="container mx-auto p-8 space-y-8">
+  <div class="container mx-auto max-w-lg p-4 space-y-8">
     <slot />
   </div>
 

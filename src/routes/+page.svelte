@@ -49,7 +49,7 @@
 <p>What's trending on <a href="https://nostr.com">nostr</a> world?</p>
 
 {#each notes as note}
-  <div class="m-8">
+  <div class="my-8">
     {#if note.id}
       <a
         href="https://snort.social/e/{note.nip19Id()}"
