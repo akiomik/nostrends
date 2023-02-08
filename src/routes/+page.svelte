@@ -45,6 +45,11 @@
   );
 </script>
 
+<svelte:head>
+  <title>Nostrends</title>
+  <meta name="description" content="What's trending on nostr world?" />
+</svelte:head>
+
 <h1>Nostrends</h1>
 
 <p>What's trending on <a href="https://nostr.com">nostr</a> world?</p>
