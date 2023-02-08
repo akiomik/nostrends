@@ -46,7 +46,7 @@
 
 <h1>Nostrends</h1>
 
-<p>What's trending on nostr world?</p>
+<p>What's trending on <a href="https://nostr.com">nostr</a> world?</p>
 
 {#each notes as note}
   <div class="m-8">
