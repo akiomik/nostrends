@@ -14,7 +14,8 @@
   const profileEventByPubkey: { [key: string]: Event } = {};
   const reactionCounts = ReactionCountJsonLoader.loadTopNRank(30);
 
-  const uniq = (xs: [unknown]) => Array.from(new Set(xs));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const uniq = (xs: any[]) => Array.from(new Set(xs));
 
   onMount(async () => {
     if (browser) {
@@ -40,9 +41,13 @@
     }
   });
 
-  $: notes = noteEvents.map((note) =>
-    Note.fromEvent(note, profileEventByPubkey[note.pubkey], reactionCounts[note.id])
-  );
+  $: notes = noteEvents.reduce((acc: Note[], note: Event) => {
+    if (note.id != null) {
+      acc.push(Note.fromEvent(note, profileEventByPubkey[note.pubkey], reactionCounts[note.id]));
+    }
+
+    return acc;
+  }, []);
 </script>
 
 <svelte:head>
