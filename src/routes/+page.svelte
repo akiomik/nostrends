@@ -13,7 +13,7 @@
   const relay = relayInit('wss://relay.damus.io');
   let noteEvents: Event[] = [];
   const profileEventByPubkey: { [key: string]: Event } = {};
-  const reactionCounts = ReactionCountJsonLoader.loadTopNRank(30);
+  const reactionCounts = ReactionCountJsonLoader.loadTopNRank(50);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const uniq = (xs: any[]) => Array.from(new Set(xs));
