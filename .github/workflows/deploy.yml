@@ -20,7 +20,7 @@ jobs:
           aws-region: ap-northeast-1
       - run: npm ci
       - run: npm run build
-      - run: aws s3 sync 's3://nostr-dump' src/events --quiet
+      - run: aws s3 sync 's3://nostr-dump' src/events
       - uses: amondnet/vercel-action@v20
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
