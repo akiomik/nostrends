@@ -5,12 +5,17 @@ const config = {
   ],
 
   theme: {
-    extend: {}
+    extend: {
+      lineClamp: {
+        8: '8',
+      }
+    }
   },
 
   darkMode: 'class',
 
   plugins: [
+    require('@tailwindcss/line-clamp'),
     ...require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')()
   ]
 };

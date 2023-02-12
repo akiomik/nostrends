@@ -38,11 +38,6 @@ export class NoteContentFormatter {
   public static format(content: string): string {
     const sanitized = sanitizeHtml(content);
     const linkified = linkifyStr(sanitized, NoteContentFormatter.linkifyOpts());
-    const breaklined = linkified.replace(/\r?\n/g, '<br />');
-    if (breaklined.length > 320) {
-      return `${breaklined.substring(0, 320)}...`;
-    } else {
-      return breaklined;
-    }
+    return linkified.replace(/\r?\n/g, '<br />');
   }
 }

@@ -21,7 +21,7 @@
       <NoteListItemProfile profile={note.profile} />
     {/if}
 
-    <p class="text-ellipsis overflow-hidden mt-4">
+    <p class="text-ellipsis overflow-hidden line-clamp-8 mt-4">
       {@html NoteContentFormatter.format(note.modifiedContent())}
     </p>
   </div>
