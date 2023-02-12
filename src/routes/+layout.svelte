@@ -14,7 +14,11 @@
     <hr />
 
     <div class="p-8 flex justify-center">
-      <p>&copy; 2023 Nostrends</p>
+      <ul class="list-none">
+        <li class="inline">&copy; 2023 Nostrends</li>
+        <li class="inline select-none text-surface-300 cursor-default">・</li>
+        <li class="inline"><a href="https://github.com/akiomik/nostrends">Github</a></li>
+      </ul>
     </div>
   </svelte:fragment>
 </AppShell>
