@@ -42,6 +42,6 @@ export class Profile {
       return null;
     }
 
-    return nip19.npubEncode(this.id);
+    return nip19.npubEncode(this.pubkey);
   }
 }
