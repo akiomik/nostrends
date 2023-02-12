@@ -16,6 +16,7 @@ const config = {
 
   plugins: [
     require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/forms'),
     ...require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')()
   ]
 };
