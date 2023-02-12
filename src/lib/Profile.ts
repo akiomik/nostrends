@@ -7,7 +7,7 @@ export class Profile {
     public id: string | undefined,
     public name: string,
     public displayName: string,
-    public picture: string,
+    public picture: string | undefined,
     public nip05: string,
     public pubkey: string
   ) {}
@@ -22,6 +22,19 @@ export class Profile {
       content.nip05,
       event.pubkey
     );
+  }
+
+  public safePicture(): string | null {
+    if (this.picture == null) {
+      return null;
+    }
+
+    try {
+      new URL(this.picture);
+      return this.picture.trim();
+    } catch {
+      return null;
+    }
   }
 
   public nip19Id(): string | null {

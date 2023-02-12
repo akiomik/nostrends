@@ -7,7 +7,7 @@
 
 <div class="flex items-center">
   <div class="mr-2">
-    <Avatar src={profile?.picture} initials="NO" />
+    <Avatar src={profile?.safePicture()} initials="NO" />
   </div>
 
   <div class="text-ellipsis overflow-hidden">
