@@ -29,7 +29,7 @@
   <hr />
 
   <footer class="card-footer flex justify-between p-4">
-    <p>+{note.reactions} reactions</p>
+    <p>+{note.reactions} reactions &#129305;</p>
     <p>
       {Intl.DateTimeFormat('ja-JP', { dateStyle: 'medium', timeStyle: 'medium' }).format(
         note.createdAt
