@@ -9,6 +9,11 @@ export class NoteContentFormatter {
     // noop
   }
 
+  private static isImageUrl(href: string): boolean {
+    const url = new URL(href.toLowerCase());
+    return url.pathname.match(/(jpe?g|png|gif|webp)$/) != null;
+  }
+
   private static linkifyOpts(): object {
     return {
       target: '_blank',
@@ -30,6 +35,34 @@ export class NoteContentFormatter {
           return `https://snort.social/e/${href.substring(1)}`;
         } else {
           return href;
+        }
+      },
+      tagName: (href: string, type: string) => {
+        if (type === 'url' && NoteContentFormatter.isImageUrl(href)) {
+          return 'img';
+        }
+
+        return 'a';
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      render: (node: { tagName: string; attributes: { [attr: string]: any }; content: string }) => {
+        const { tagName, attributes, content } = node;
+
+        let attrString = '';
+        let src = '';
+
+        for (const attr in attributes) {
+          if (attr === 'href') {
+            src = attributes[attr];
+          }
+
+          attrString += ` ${attr}=${attributes[attr]}`;
+        }
+
+        if (tagName === 'img') {
+          return `<img src=${src} class="my-4">`;
+        } else {
+          return `<${tagName}${attrString}>${content}</${tagName}>`;
         }
       }
     };
