@@ -1,11 +1,9 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { browser } from '$app/environment';
-  import nostrTools from '../lib/nostr-tools.js';
-  const { relayInit } = nostrTools;
+  import AsyncRelay from '../lib/AsyncRelay';
   import type { Event } from 'nostr-tools';
   import { ReactionCountJsonLoader } from '../lib/ReactionCountJsonLoader';
-  import { RelayHelper } from '../lib/RelayHelper';
   import { Note } from '../lib/Note';
   import NoteListItem from '../components/NoteListItem.svelte';
   import LoadingSpinner from '../components/LoadingSpinner.svelte';
@@ -13,7 +11,7 @@
   export let relayUrl: string;
   export let region: string;
 
-  const relay = relayInit(relayUrl);
+  const relay = new AsyncRelay(relayUrl);
   let noteEvents: Event[] = [];
   const profileEventByPubkey: { [key: string]: Event } = {};
   const reactionCounts = ReactionCountJsonLoader.loadTopNRank(region, 50);
@@ -23,27 +21,17 @@
 
   onMount(async () => {
     if (browser) {
-      console.log('connect', relayUrl);
-
-      relay.connect();
-      relay.on('connect', () => {
-        console.log(`connected to ${relay.url}`);
-      });
-      relay.on('error', () => {
-        console.error(`failed to connect to ${relay.url}`);
-      });
-
+      await relay.connect();
       const noteIds = Object.keys(reactionCounts);
-      noteEvents = await RelayHelper.asyncSub(relay, [{ ids: noteIds }]);
+      noteEvents = await relay.sub([{ ids: noteIds }]);
       const pubkeys = uniq(noteEvents.map((note) => note.pubkey));
-      const profileEvents = await RelayHelper.asyncSub(relay, [{ authors: pubkeys, kinds: [0] }]);
+      const profileEvents = await relay.sub([{ authors: pubkeys, kinds: [0] }]);
       profileEvents.forEach((profile) => (profileEventByPubkey[profile.pubkey] = profile));
     }
   });
 
   onDestroy(async () => {
     if (browser) {
-      console.log('close', relayUrl);
       await relay.close();
     }
   });
