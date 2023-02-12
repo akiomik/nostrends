@@ -1,54 +1,8 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
-  import { browser } from '$app/environment';
-  import nostrTools from '../lib/nostr-tools.js';
-  const { relayInit } = nostrTools;
-  import type { Event } from 'nostr-tools';
-  import { ReactionCountJsonLoader } from '../lib/ReactionCountJsonLoader';
-  import { RelayHelper } from '../lib/RelayHelper';
-  import { Note } from '../lib/Note';
-  import NoteListItem from '../components/NoteListItem.svelte';
-  import LoadingSpinner from '../components/LoadingSpinner.svelte';
+  import { TabGroup, Tab } from '@skeletonlabs/skeleton';
+  import RegionTabPanel from '../components/RegionTabPanel.svelte';
 
-  const relay = relayInit('wss://relay.damus.io');
-  let noteEvents: Event[] = [];
-  const profileEventByPubkey: { [key: string]: Event } = {};
-  const reactionCounts = ReactionCountJsonLoader.loadTopNRank(50);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const uniq = (xs: any[]) => Array.from(new Set(xs));
-
-  onMount(async () => {
-    if (browser) {
-      relay.connect();
-      relay.on('connect', () => {
-        console.log(`connected to ${relay.url}`);
-      });
-      relay.on('error', () => {
-        console.error(`failed to connect to ${relay.url}`);
-      });
-
-      const noteIds = Object.keys(reactionCounts);
-      noteEvents = await RelayHelper.asyncSub(relay, [{ ids: noteIds }]);
-      const pubkeys = uniq(noteEvents.map((note) => note.pubkey));
-      const profileEvents = await RelayHelper.asyncSub(relay, [{ authors: pubkeys, kinds: [0] }]);
-      profileEvents.forEach((profile) => (profileEventByPubkey[profile.pubkey] = profile));
-    }
-  });
-
-  onDestroy(() => {
-    if (browser) {
-      relay.close();
-    }
-  });
-
-  $: notes = noteEvents.reduce((acc: Note[], note: Event) => {
-    if (note.id != null) {
-      acc.push(Note.fromEvent(note, profileEventByPubkey[note.pubkey], reactionCounts[note.id]));
-    }
-
-    return acc;
-  }, []);
+  let regionTab = 0;
 </script>
 
 <svelte:head>
@@ -61,21 +15,15 @@
 
 <p>What's trending on <a href="https://nostr.com">nostr</a>?</p>
 
-{#each notes as note}
-  <div class="my-8">
-    {#if note.id}
-      <a
-        href="https://snort.social/e/{note.nip19Id()}"
-        target="_blank"
-        rel="noreferrer"
-        class="unstyled"
-      >
-        <NoteListItem {note} />
-      </a>
-    {:else}
-      <NoteListItem {note} />
+<TabGroup>
+  <Tab bind:group={regionTab} name="global" value={0}>Global</Tab>
+  <Tab bind:group={regionTab} name="jp" value={1}>JP</Tab>
+
+  <svelte:fragment slot="panel">
+    {#if regionTab === 0}
+      <RegionTabPanel region="global" relayUrl="wss://relay.damus.io" />
+    {:else if regionTab === 1}
+      <RegionTabPanel region="jp" relayUrl="wss://relay-jp.nostr.wirednet.jp" />
     {/if}
-  </div>
-{:else}
-  <LoadingSpinner />
-{/each}
+  </svelte:fragment>
+</TabGroup>
