@@ -77,6 +77,7 @@ export class NoteContentFormatter {
   public static format(content: string): string {
     const sanitized = sanitizeHtml(content);
     const linkified = linkifyStr(sanitized, NoteContentFormatter.linkifyOpts());
-    return linkified.replace(/\r?\n/g, '<br />');
+    const breaked = linkified.replace(/\r?\n/g, '<br />');
+    return breaked.replace(/&amp;/, '&'); // work around for linkify sanitization
   }
 }
