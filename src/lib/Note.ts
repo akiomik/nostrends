@@ -1,4 +1,5 @@
-import { nip19 } from 'nostr-tools';
+import nostrTools from './nostr-tools';
+const { nip19 } = nostrTools;
 import type { Event } from 'nostr-tools';
 
 import { Profile } from './Profile';

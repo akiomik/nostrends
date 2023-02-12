@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { browser } from '$app/environment';
-  import { relayInit } from 'nostr-tools';
+  import nostrTools from '../lib/nostr-tools.js';
+  const { relayInit } = nostrTools;
   import type { Event } from 'nostr-tools';
   import { ReactionCountJsonLoader } from '../lib/ReactionCountJsonLoader';
   import { RelayHelper } from '../lib/RelayHelper';
