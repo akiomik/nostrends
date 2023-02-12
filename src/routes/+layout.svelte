@@ -17,6 +17,10 @@
 
     gtag('config', 'G-KQC5SVSF6M');
   </script>
+
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Nostrends" />
 </svelte:head>
 
 <AppShell>
