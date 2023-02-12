@@ -18,9 +18,7 @@ export class NoteContentFormatter {
     return {
       target: '_blank',
       format: (value: string, type: string) => {
-        if (type === 'url' && !value.startsWith('http')) {
-          return '';
-        } else if (type === 'mention') {
+        if (type === 'mention') {
           return `${value.substring(0, 9)}:${value.substring(value.length - 8, value.length)}`;
         }
 
@@ -64,6 +62,14 @@ export class NoteContentFormatter {
         } else {
           return `<${tagName}${attrString}>${content}</${tagName}>`;
         }
+      },
+      truncate: 54,
+      validate: (value: string, type: string) => {
+        if (type === 'url' && !value.startsWith('http')) {
+          return false;
+        }
+
+        return true;
       }
     };
   }
