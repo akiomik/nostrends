@@ -7,7 +7,7 @@ import Tag from './Tag';
 
 export default class Note {
   constructor(
-    public id: string | undefined,
+    public id: string | null,
     public content: string,
     public pubkey: string,
     public createdAt: Date,
@@ -23,7 +23,7 @@ export default class Note {
       .filter((tag: Tag | null): tag is Tag => tag !== null);
 
     return new Note(
-      note.id,
+      note.id || null,
       note.content,
       note.pubkey,
       new Date(note.created_at * 1000),
