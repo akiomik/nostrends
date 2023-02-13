@@ -2,7 +2,7 @@ import sanitizeHtml from 'sanitize-html';
 import * as linkify from 'linkifyjs'; // eslint-disable-line @typescript-eslint/no-unused-vars
 import 'linkify-plugin-hashtag';
 import 'linkify-plugin-mention';
-import linkifyStr from 'linkify-string';
+import linkifyHtml from 'linkify-html';
 
 export class NoteContentFormatter {
   private constructor() {
@@ -76,8 +76,8 @@ export class NoteContentFormatter {
 
   public static format(content: string): string {
     const sanitized = sanitizeHtml(content);
-    const linkified = linkifyStr(sanitized, NoteContentFormatter.linkifyOpts());
+    const linkified = linkifyHtml(sanitized, NoteContentFormatter.linkifyOpts());
     const breaked = linkified.replace(/\r?\n/g, '<br />');
-    return breaked.replace(/&amp;/, '&'); // work around for linkify sanitization
+    return breaked;
   }
 }
