@@ -1,4 +1,4 @@
-export class Tag {
+export default class Tag {
   constructor(public typ: string, public value: string) {}
 
   public static fromEvent(tag: string[]): Tag | null {

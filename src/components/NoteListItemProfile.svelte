@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Avatar } from '@skeletonlabs/skeleton';
-  import type { Profile } from '../lib/Profile';
+  import type { Profile } from '../entities/Profile';
 
   export let profile: Profile | null;
 </script>

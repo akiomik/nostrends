@@ -1,6 +1,6 @@
 <script lang="ts">
   import { settings } from '../stores/settings.ts';
-  import type { Profile } from '../lib/Note';
+  import type { Profile } from '../entities/Profile';
 
   export let profile: Profile;
   export let className = '';

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { settings } from '../stores/settings.ts';
-  import type { Note } from '../lib/Note';
+  import type { Note } from '../entities/Note';
 
   export let note: Note;
   export let className = '';

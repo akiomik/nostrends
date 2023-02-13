@@ -1,11 +1,11 @@
-import nostrTools from './nostr-tools';
+import nostrTools from '../lib/nostr-tools';
 const { nip19 } = nostrTools;
 import type { Event } from 'nostr-tools';
 
-import { Profile } from './Profile';
-import { Tag } from './Tag';
+import Profile from './Profile';
+import Tag from './Tag';
 
-export class Note {
+export default class Note {
   constructor(
     public id: string | undefined,
     public content: string,

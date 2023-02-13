@@ -1,12 +1,12 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { browser } from '$app/environment';
-  import AsyncRelay from '../lib/AsyncRelay';
   import type { Event } from 'nostr-tools';
+  import AsyncRelay from '../lib/AsyncRelay';
   import { ReactionCountJsonLoader } from '../lib/ReactionCountJsonLoader';
-  import { Note } from '../lib/Note';
-  import NoteList from '../components/NoteList.svelte';
-  import LoadingSpinner from '../components/LoadingSpinner.svelte';
+  import Note from '../entities/Note';
+  import NoteList from './NoteList.svelte';
+  import LoadingSpinner from './LoadingSpinner.svelte';
 
   export let relayUrl: string;
   export let region: string;
