@@ -1,10 +1,11 @@
 <script lang="ts">
+  import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
+  import { faArrowDownShortWide } from '@fortawesome/free-solid-svg-icons';
   import type { Note } from '../lib/Note';
   import { SortOrdering } from '../lib/SortOrdering';
   import NoteSorter from '../lib/NoteSorter';
-  import NoteListItem from '../components/NoteListItem.svelte';
-  import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
-  import { faArrowDownShortWide } from '@fortawesome/free-solid-svg-icons';
+  import NoteListItem from './NoteListItem.svelte';
+  import NoteLink from './NoteLink.svelte';
 
   export let notes: Note[] = [];
 
@@ -24,14 +25,9 @@
 {#each sortedNotes as note}
   <div class="my-8">
     {#if note.id}
-      <a
-        href="https://snort.social/e/{note.nip19Id()}"
-        target="_blank"
-        rel="noreferrer"
-        class="unstyled"
-      >
+      <NoteLink {note} className="unstyled">
         <NoteListItem {note} />
-      </a>
+      </NoteLink>
     {:else}
       <NoteListItem {note} />
     {/if}
