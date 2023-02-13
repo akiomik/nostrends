@@ -1,7 +1,7 @@
 <script lang="ts">
   import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
   import { faArrowDownShortWide } from '@fortawesome/free-solid-svg-icons';
-  import type { Note } from '../entities/Note';
+  import type Note from '../entities/Note';
   import SortOrdering from '../entities/SortOrdering';
   import NoteSorter from '../lib/NoteSorter';
   import NoteListItem from './NoteListItem.svelte';

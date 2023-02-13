@@ -1,13 +1,13 @@
 <script lang="ts">
   import { Avatar } from '@skeletonlabs/skeleton';
-  import type { Profile } from '../entities/Profile';
+  import type Profile from '../entities/Profile';
 
   export let profile: Profile | null;
 </script>
 
 <div class="flex items-center">
   <div class="mr-2">
-    <Avatar src={profile?.safePicture()} initials="NO" />
+    <Avatar src={profile?.safePicture() || undefined} initials="NO" />
   </div>
 
   <div class="text-ellipsis overflow-hidden">

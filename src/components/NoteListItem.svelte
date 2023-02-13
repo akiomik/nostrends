@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Note } from '../lib/Note';
+  import type Note from '../entities/Note';
   import { NoteContentFormatter } from '../lib/NoteContentFormatter';
   import NoteListItemProfile from './NoteListItemProfile.svelte';
   import ProfileLink from './ProfileLink.svelte';
