@@ -1,0 +1,37 @@
+<svg viewBox="0 0 400 400" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="transparent">
+  <defs>
+    <!-- NotoSansEgyptianHieroglyphs-Regular.ttf: Copyright 2017 Google Inc. All Rights Reserved. -->
+    <font id="NotoSansEgyptianHieroglyphs-Regular" horiz-adv-x="1228" >
+      <font-face 
+        font-family="Noto Sans EgyptHiero"
+        font-weight="400"
+        font-stretch="normal"
+        units-per-em="1000"
+        panose-1="2 11 5 2 4 5 4 2 2 4"
+        ascent="800"
+        descent="-200"
+        bbox="-346 -326 1969 1324"
+        underline-thickness="50"
+        underline-position="-125"
+        unicode-range="U+000D-1342E"
+      />
+      <glyph glyph-name="u13182" unicode="&#x13182;" horiz-adv-x="578" 
+        d="M309 -2q-42 0 -82 22t-66 61t-26 91q0 36 16.5 69.5t38 61.5t36.5 46l128 129q-10 0 -16 1q-10 2 -20.5 4.5t-21.5 6.5q-13 4 -24.5 8t-34.5 5q-43 3 -76.5 5.5t-69.5 9.5q-3 -4 -6.5 -9t-5.5 -9h-30v26q0 34 18.5 65.5t46.5 42.5q17 6 35 9.5t35 5.5q10 2 21 3.5t21 4.5
+           q5 1 13 3.5t18 6.5q24 10 57.5 20t76.5 10q51 0 81.5 -20.5t43.5 -52.5t13 -66q0 -55 -46 -112.5t-120 -133.5q-23 -23 -37 -36.5t-26 -36.5q14 12 34 16t30 4q37 0 61.5 -18.5t37 -46t12.5 -53.5q0 -40 -16.5 -67.5t-42 -44t-54 -24t-53.5 -7.5zM309 18q30 0 64 11.5
+           t58 38.5t24 73q0 22 -10.5 44.5t-30.5 38t-50 15.5q-40 0 -63 -20.5t-23 -43.5q0 -13 9 -27.5t25 -19.5l-6 -19q-24 8 -35 28t-13 37q-3 39 26 77t65 75q71 73 115.5 127.5t44.5 104.5q0 30 -11 57t-37 44.5t-70 17.5q-40 0 -72 -9.5t-55 -18.5q-10 -4 -19 -7t-20 -5
+           q-1 -9 -2.5 -18.5t-1.5 -19.5q0 -18 4 -34q14 -3 26 -7.5t19 -6.5l-8 -18q-15 6 -39.5 12t-47.5 6q-22 0 -38 -5.5t-27 -10.5q33 -5 62.5 -8t67.5 -5q18 -1 33.5 -5t28.5 -9q9 -3 26.5 -6t33.5 -3q13 0 25.5 5t36.5 23l10 -17q-7 -5 -22 -14.5t-29 -15.5l-144 -145
+           q-14 -16 -34 -42.5t-35 -57.5t-15 -63q0 -46 23 -80.5t58.5 -54t72.5 -19.5zM347 567q-17 0 -30 11.5t-15 28.5l-35 -10l-4 14l40 12q4 15 16 24.5t28 9.5q19 0 32 -13t13 -32t-13 -32t-32 -13zM347 583q12 0 20.5 8.5t8.5 20.5t-8.5 21t-20.5 9t-21 -9t-9 -21t9 -20.5
+           t21 -8.5zM68 519h2q5 8 15 20.5t31.5 22t58.5 9.5q14 0 29 -3q-1 8 -1.5 16t-0.5 15q0 8 0.5 17t2.5 17l-18 -3q-17 -3 -33.5 -5.5t-32.5 -9.5q-24 -8 -38.5 -34.5t-14.5 -54.5v-7zM347 596q-7 0 -11.5 5t-4.5 11q0 16 16 16t16 -16q0 -6 -4.5 -11t-11.5 -5zM347 606
+           q6 0 6 6t-6 6t-6 -6t6 -6z"
+      />
+    </font>
+  </defs>
+  <style>
+    text {
+      fill: rgb(11, 140, 97);
+      font-family: "Noto Sans Egyptian Hieroglyphs", "Noto Sans EgyptHiero";
+      font-size: 400pt;
+    }
+  </style>
+  <text x="50" y="385">&#x13182;</text>
+</svg>
