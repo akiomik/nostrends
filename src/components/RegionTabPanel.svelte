@@ -5,7 +5,7 @@
   import type { Event } from 'nostr-tools';
   import { ReactionCountJsonLoader } from '../lib/ReactionCountJsonLoader';
   import { Note } from '../lib/Note';
-  import NoteListItem from '../components/NoteListItem.svelte';
+  import NoteList from '../components/NoteList.svelte';
   import LoadingSpinner from '../components/LoadingSpinner.svelte';
 
   export let relayUrl: string;
@@ -45,21 +45,8 @@
   }, []);
 </script>
 
-{#each notes as note}
-  <div class="my-8">
-    {#if note.id}
-      <a
-        href="https://snort.social/e/{note.nip19Id()}"
-        target="_blank"
-        rel="noreferrer"
-        class="unstyled"
-      >
-        <NoteListItem {note} />
-      </a>
-    {:else}
-      <NoteListItem {note} />
-    {/if}
-  </div>
-{:else}
+{#if notes.length === 0}
   <LoadingSpinner />
-{/each}
+{:else}
+  <NoteList {notes} />
+{/if}
