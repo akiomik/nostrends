@@ -1,7 +1,8 @@
 <script lang="ts">
-  import NoteListItemProfile from './NoteListItemProfile.svelte';
   import type { Note } from '../lib/Note';
   import { NoteContentFormatter } from '../lib/NoteContentFormatter';
+  import NoteListItemProfile from './NoteListItemProfile.svelte';
+  import ProfileLink from './ProfileLink.svelte';
 
   export let note: Note;
 </script>
@@ -9,14 +10,9 @@
 <div class="card">
   <div class="p-4">
     {#if note.profile?.id}
-      <a
-        href="https://snort.social/p/{note.profile.nip19Id()}"
-        target="_blank"
-        rel="noreferrer"
-        class="unstyled"
-      >
+      <ProfileLink profile={note.profile} className="unstyled">
         <NoteListItemProfile profile={note.profile} />
-      </a>
+      </ProfileLink>
     {:else}
       <NoteListItemProfile profile={note.profile} />
     {/if}
