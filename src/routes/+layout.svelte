@@ -4,6 +4,7 @@
   import '@skeletonlabs/skeleton/styles/all.css';
   import '@fortawesome/fontawesome-svg-core/styles.css';
   import '../app.postcss';
+  import Header from '../components/Header.svelte';
 </script>
 
 <svelte:head>
@@ -25,7 +26,11 @@
 </svelte:head>
 
 <AppShell>
-  <div class="container mx-auto max-w-lg p-4 space-y-8">
+  <svelte:fragment slot="header">
+    <Header />
+  </svelte:fragment>
+
+  <div class="container mx-auto max-w-lg p-4 space-y-8 mt-4">
     <slot />
   </div>
 
