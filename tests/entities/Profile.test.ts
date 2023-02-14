@@ -81,3 +81,28 @@ describe('nip19Id', () => {
     expect(profile.nip19Id()).toBe(expected);
   });
 });
+
+describe('formattedNip05', () => {
+  it('returns empty when nip05 is undefined', () => {
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, undefined, 'npub');
+    expect(profile.formattedNip05()).toBe('');
+  });
+
+  it('returns domain when nip05 is only domain', () => {
+    const nip05 = 'example.com';
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, nip05, 'npub');
+    expect(profile.formattedNip05()).toBe(nip05);
+  });
+
+  it('returns domain when name of nip05 is `_`', () => {
+    const nip05 = '_@example.com';
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, nip05, 'npub');
+    expect(profile.formattedNip05()).toBe('example.com');
+  });
+
+  it('returns fullname when nip05 is fullname', () => {
+    const nip05 = 'foo@example.com';
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, nip05, 'npub');
+    expect(profile.formattedNip05()).toBe(nip05);
+  });
+});

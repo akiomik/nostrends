@@ -8,7 +8,7 @@ export default class Profile {
     public name: string,
     public displayName: string,
     public picture: string | undefined,
-    public nip05: string,
+    public nip05: string | undefined,
     public pubkey: string
   ) {}
 
@@ -47,5 +47,18 @@ export default class Profile {
 
   public nip19Id(): string {
     return nip19.npubEncode(this.pubkey);
+  }
+
+  public formattedNip05(): string {
+    if (this.nip05 === undefined) {
+      return '';
+    }
+
+    const nip05 = this.nip05.split('@');
+    if (nip05.length === 2 && nip05[0] === '_') {
+      return nip05[1];
+    }
+
+    return this.nip05;
   }
 }
