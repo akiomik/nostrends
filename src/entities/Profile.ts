@@ -30,8 +30,12 @@ export default class Profile {
     }
 
     try {
-      new URL(this.picture);
-      return this.picture.trim();
+      const url = new URL(this.picture);
+      if (!url.protocol.startsWith('http')) {
+        return null;
+      }
+
+      return url.toString();
     } catch {
       return null;
     }
