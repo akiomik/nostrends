@@ -3,6 +3,39 @@ import type { Event } from 'nostr-tools';
 
 import Profile from '../../src/entities/Profile';
 
+describe('fromEvent', () => {
+  it('returns Profile', () => {
+    const content = {
+      website: 'https://github.com/akiomik',
+      nip05: 'omi@akiomik.github.io',
+      picture: 'https://1.gravatar.com/avatar/a89e4fcbb69ae9b5bd3db71fef465c00',
+      lud16: 'humidnight79@walletofsatoshi.com',
+      display_name: 'Akiomi Kamakura',
+      about:
+        'Software developer / Bird lover\n-\nAuthor of Nostrends (Trending on Nostr)\nhttps://nostrends.vercel.app',
+      name: 'omi'
+    };
+    const event: Event = {
+      id: 'foobar',
+      pubkey: 'npub',
+      content: JSON.stringify(content),
+      kind: 0,
+      created_at: 1676334894,
+      tags: []
+    };
+    const actual = Profile.fromEvent(event);
+    const expected = new Profile(
+      'foobar',
+      'omi',
+      'Akiomi Kamakura',
+      'https://1.gravatar.com/avatar/a89e4fcbb69ae9b5bd3db71fef465c00',
+      'omi@akiomik.github.io',
+      'npub'
+    );
+    expect(actual).toEqual(expected);
+  });
+});
+
 describe('safePicture', () => {
   it('returns null when picture is undefined', () => {
     const profile = new Profile(undefined, 'name', 'Display Name', undefined, '', 'npub');
