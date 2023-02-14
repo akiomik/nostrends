@@ -37,7 +37,7 @@
   });
 
   $: notes = noteEvents.reduce((acc: Note[], note: Event) => {
-    if (note.id != null) {
+    if (note.id !== undefined) {
       acc.push(Note.fromEvent(note, profileEventByPubkey[note.pubkey], reactionCounts[note.id]));
     }
 

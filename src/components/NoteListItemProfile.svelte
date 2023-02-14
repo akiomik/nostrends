@@ -2,12 +2,12 @@
   import { Avatar } from '@skeletonlabs/skeleton';
   import type Profile from '../entities/Profile';
 
-  export let profile: Profile | null;
+  export let profile: Profile | undefined;
 </script>
 
 <div class="flex items-center">
   <div class="mr-2">
-    <Avatar src={profile?.safePicture() || undefined} initials="NO" />
+    <Avatar src={profile?.safePicture()} initials="NO" />
   </div>
 
   <div class="text-ellipsis overflow-hidden">

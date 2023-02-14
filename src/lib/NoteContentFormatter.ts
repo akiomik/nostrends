@@ -11,7 +11,7 @@ export class NoteContentFormatter {
 
   private static isImageUrl(href: string): boolean {
     const url = new URL(href.toLowerCase());
-    return url.pathname.match(/(jpe?g|png|gif|webp)$/) != null;
+    return url.pathname.match(/(jpe?g|png|gif|webp)$/) !== null;
   }
 
   private static linkifyOpts(): object {

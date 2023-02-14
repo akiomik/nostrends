@@ -1,9 +1,9 @@
 export default class Tag {
   constructor(public typ: string, public value: string) {}
 
-  public static fromEvent(tag: string[]): Tag | null {
+  public static fromEvent(tag: string[]): Tag | undefined {
     if (tag.length < 2) {
-      return null;
+      return undefined;
     }
 
     return new Tag(tag[0], tag[1]);

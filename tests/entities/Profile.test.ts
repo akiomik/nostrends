@@ -39,17 +39,17 @@ describe('fromEvent', () => {
 describe('safePicture', () => {
   it('returns null when picture is undefined', () => {
     const profile = new Profile(undefined, 'name', 'Display Name', undefined, '', 'npub');
-    expect(profile.safePicture()).toBeNull();
+    expect(profile.safePicture()).toBeUndefined();
   });
 
   it('returns null when picture is a path', () => {
     const profile = new Profile(undefined, 'name', 'Display Name', '/foo/bar', '', 'npub');
-    expect(profile.safePicture()).toBeNull();
+    expect(profile.safePicture()).toBeUndefined();
   });
 
   it('returns null when picture is a local file', () => {
     const profile = new Profile(undefined, 'name', 'Display Name', 'file://foo/bar', '', 'npub');
-    expect(profile.safePicture()).toBeNull();
+    expect(profile.safePicture()).toBeUndefined();
   });
 
   it('returns trimmed url when picture is valid', () => {

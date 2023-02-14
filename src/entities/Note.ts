@@ -7,23 +7,23 @@ import Tag from './Tag';
 
 export default class Note {
   constructor(
-    public id: string | null,
+    public id: string | undefined,
     public content: string,
     public pubkey: string,
     public createdAt: Date,
     public tags: Tag[],
-    public profile: Profile | null,
+    public profile: Profile | undefined,
     public reactions: number
   ) {}
 
-  public static fromEvent(note: Event, profileOpt: Event | null, reactions: number): Note {
-    const profile = profileOpt == null ? null : Profile.fromEvent(profileOpt);
+  public static fromEvent(note: Event, profileOpt: Event | undefined, reactions: number): Note {
+    const profile = profileOpt == undefined ? undefined : Profile.fromEvent(profileOpt);
     const tags: Tag[] = note.tags
       .map((tag) => Tag.fromEvent(tag))
-      .filter((tag: Tag | null): tag is Tag => tag !== null);
+      .filter((tag: Tag | undefined): tag is Tag => tag !== undefined);
 
     return new Note(
-      note.id || null,
+      note.id,
       note.content,
       note.pubkey,
       new Date(note.created_at * 1000),
@@ -55,9 +55,9 @@ export default class Note {
     return content;
   }
 
-  public nip19Id(): string | null {
-    if (this.id == null) {
-      return null;
+  public nip19Id(): string | undefined {
+    if (this.id === undefined) {
+      return undefined;
     }
 
     return nip19.noteEncode(this.id);

@@ -24,24 +24,24 @@ export default class Profile {
     );
   }
 
-  public safePicture(): string | null {
-    if (this.picture == null) {
-      return null;
+  public safePicture(): string | undefined {
+    if (this.picture === undefined) {
+      return undefined;
     }
 
     try {
       const url = new URL(this.picture);
       if (!url.protocol.startsWith('http')) {
-        return null;
+        return undefined;
       }
 
       return url.toString();
     } catch {
-      return null;
+      return undefined;
     }
   }
 
-  public nip19Id(): string | null {
+  public nip19Id(): string {
     return nip19.npubEncode(this.pubkey);
   }
 }

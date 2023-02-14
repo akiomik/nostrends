@@ -31,7 +31,7 @@ export class ReactionCountJsonLoader {
     const counts = Object.values(reactionCounts);
     counts.sort((a, b) => b - a);
     const lowerCount = counts.slice(0, n).at(-1); // top-N
-    if (lowerCount == null) {
+    if (lowerCount === undefined) {
       return {};
     }
 
