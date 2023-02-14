@@ -1,5 +1,5 @@
 import nostrTools from '../lib/nostr-tools';
-const { nip19 } = nostrTools;
+const { nip19, nip05 } = nostrTools;
 import type { Event } from 'nostr-tools';
 
 export default class Profile {
@@ -60,5 +60,18 @@ export default class Profile {
     }
 
     return this.nip05;
+  }
+
+  public async isNip05Valid(): Promise<boolean> {
+    if (this.nip05 === undefined) {
+      return false;
+    }
+
+    try {
+      const res = await nip05.queryProfile(this.nip05);
+      return res !== null;
+    } catch (e) {
+      return false;
+    }
   }
 }

@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import type { Event } from 'nostr-tools';
+import { nip05 } from 'nostr-tools';
 
 import Profile from '../../src/entities/Profile';
 
@@ -89,20 +90,65 @@ describe('formattedNip05', () => {
   });
 
   it('returns domain when nip05 is only domain', () => {
-    const nip05 = 'example.com';
-    const profile = new Profile(undefined, 'name', 'Display Name', undefined, nip05, 'npub');
-    expect(profile.formattedNip05()).toBe(nip05);
+    const name = 'example.com';
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, name, 'npub');
+    expect(profile.formattedNip05()).toBe(name);
   });
 
   it('returns domain when name of nip05 is `_`', () => {
-    const nip05 = '_@example.com';
-    const profile = new Profile(undefined, 'name', 'Display Name', undefined, nip05, 'npub');
+    const name = '_@example.com';
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, name, 'npub');
     expect(profile.formattedNip05()).toBe('example.com');
   });
 
   it('returns fullname when nip05 is fullname', () => {
-    const nip05 = 'foo@example.com';
-    const profile = new Profile(undefined, 'name', 'Display Name', undefined, nip05, 'npub');
-    expect(profile.formattedNip05()).toBe(nip05);
+    const name = 'foo@example.com';
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, name, 'npub');
+    expect(profile.formattedNip05()).toBe(name);
+  });
+});
+
+describe('isNip05Valid', async () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    nip05.useFetchImplementation(fetch);
+  });
+
+  it('returns false when nip05 is undefined', async () => {
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, undefined, 'npub');
+    await expect(profile.isNip05Valid()).resolves.toBe(false);
+  });
+
+  it('returns false when nip05 is invalid', async () => {
+    const mock = vi.fn().mockImplementation(() => {
+      return { json: () => ({ names: { foo: 'bar' } }) };
+    });
+    nip05.useFetchImplementation(mock);
+
+    const name = 'johndoe@example.com';
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, name, 'npub');
+    await expect(profile.isNip05Valid()).resolves.toBe(false);
+  });
+
+  it('returns false when `fetch` throws exception', async () => {
+    const mock = vi.fn().mockImplementation(() => {
+      throw new Error('failed');
+    });
+    nip05.useFetchImplementation(mock);
+
+    const name = 'johndoe@example.com';
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, name, 'npub');
+    await expect(profile.isNip05Valid()).resolves.toBe(false);
+  });
+
+  it('returns true when nip05 is valid', async () => {
+    const mock = vi.fn().mockImplementation(() => {
+      return { json: () => ({ names: { foo: 'bar' } }) };
+    });
+    nip05.useFetchImplementation(mock);
+
+    const name = 'foo@example.com';
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, name, 'npub');
+    await expect(profile.isNip05Valid()).resolves.toBe(true);
   });
 });
