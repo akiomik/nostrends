@@ -38,10 +38,6 @@ export default class Profile {
   }
 
   public nip19Id(): string | null {
-    if (this.id == null) {
-      return null;
-    }
-
     return nip19.npubEncode(this.pubkey);
   }
 }
