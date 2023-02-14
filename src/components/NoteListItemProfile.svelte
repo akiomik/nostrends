@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Avatar } from '@skeletonlabs/skeleton';
   import type Profile from '../entities/Profile';
+  import ProfileNip05 from './ProfileNip05.svelte';
 
   export let profile: Profile | undefined;
 </script>
@@ -15,8 +16,8 @@
       {profile?.displayName || profile?.name || profile?.pubkey || 'nostrich'}
     </p>
 
-    {#if profile?.nip05}
-      <p class="text-ellipsis overflow-hidden">{profile.nip05}</p>
+    {#if profile}
+      <ProfileNip05 {profile} />
     {/if}
   </div>
 </div>
