@@ -1,8 +1,11 @@
 <script lang="ts">
   import { TabGroup, Tab } from '@skeletonlabs/skeleton';
   import RegionTabPanel from '../components/RegionTabPanel.svelte';
+  import { globalRegion, jpRegion } from '../entities/Regions';
 
+  const regions = [globalRegion, jpRegion];
   let regionTab = 0;
+  $: selectedRegion = regions[regionTab];
 </script>
 
 <svelte:head>
@@ -19,14 +22,16 @@
 <p>What's trending on <a href="https://nostr.com">Nostr</a>?</p>
 
 <TabGroup>
-  <Tab bind:group={regionTab} name="global" value={0}>Global</Tab>
-  <Tab bind:group={regionTab} name="jp" value={1}>JP</Tab>
+  {#each regions as region, i}
+    <Tab bind:group={regionTab} name={region.normalizedName()} value={i}>{region.name}</Tab>
+  {/each}
 
   <svelte:fragment slot="panel">
+    <!-- FIXME: watch regionTab changes -->
     {#if regionTab === 0}
-      <RegionTabPanel region="global" relayUrl="wss://relay.damus.io" />
-    {:else if regionTab === 1}
-      <RegionTabPanel region="jp" relayUrl="wss://relay-jp.nostr.wirednet.jp" />
+      <RegionTabPanel region={selectedRegion} />
+    {:else}
+      <RegionTabPanel region={selectedRegion} />
     {/if}
   </svelte:fragment>
 </TabGroup>

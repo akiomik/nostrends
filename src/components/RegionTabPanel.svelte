@@ -4,14 +4,14 @@
   import type { Event } from 'nostr-tools';
   import AsyncRelay from '../lib/AsyncRelay';
   import { ReactionCountJsonLoader } from '../lib/ReactionCountJsonLoader';
+  import type Region from '../entities/Region';
   import Note from '../entities/Note';
   import NoteList from './NoteList.svelte';
   import LoadingSpinner from './LoadingSpinner.svelte';
 
-  export let relayUrl: string;
-  export let region: string;
+  export let region: Region;
 
-  const relay = new AsyncRelay(relayUrl);
+  const relay = new AsyncRelay(region.relays[0]);
   let noteEvents: Event[] = [];
   const profileEventByPubkey: { [key: string]: Event } = {};
   const reactionCounts = ReactionCountJsonLoader.loadTopNRank(region, 50);
