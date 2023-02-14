@@ -1,3 +1,5 @@
+import type Region from '../entities/Region';
+
 type ReactionCount = { [key: string]: number };
 
 export class ReactionCountJsonLoader {
@@ -5,11 +7,11 @@ export class ReactionCountJsonLoader {
     // noop
   }
 
-  public static load(region: string): ReactionCount {
+  public static load(region: Region): ReactionCount {
     const reactionCountsByRegion: ReactionCount = {};
     const eventJsonModules = import.meta.glob(`../events/**/*.json`, { eager: true });
     Object.entries(eventJsonModules).forEach(([path, mod]) => {
-      if (!path.includes(region)) {
+      if (!path.includes(region.normalizedName())) {
         return;
       }
 
@@ -26,7 +28,7 @@ export class ReactionCountJsonLoader {
     return reactionCountsByRegion;
   }
 
-  public static loadTopNRank(region: string, n: number): ReactionCount {
+  public static loadTopNRank(region: Region, n: number): ReactionCount {
     const reactionCounts = ReactionCountJsonLoader.load(region);
     const counts = Object.values(reactionCounts);
     counts.sort((a, b) => b - a);

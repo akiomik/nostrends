@@ -1,39 +1,33 @@
+import type { Filter, Event } from 'nostr-tools';
 import nostrTools from './nostr-tools';
-const { relayInit } = nostrTools;
-import type { Relay, Filter, Event } from 'nostr-tools';
+const { SimplePool } = nostrTools;
 
 export default class AsyncRelay {
-  private relay: Relay;
+  private pool: typeof SimplePool;
 
-  constructor(public url: string) {
-    this.relay = relayInit(url);
+  constructor(public urls: string[]) {
+    this.pool = new SimplePool();
   }
 
   public async connect(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.relay.connect();
-      this.relay.on('connect', () => resolve());
-      this.relay.on('error', () => reject());
+    const promises = this.urls.map((url) => {
+      return this.pool.ensureRelay(url).catch(() => {
+        // ignore errors
+      });
     });
+
+    await Promise.race(promises);
   }
 
-  public async sub(filters: Filter[]): Promise<Event[]> {
-    const data: Event[] = [];
-
-    return new Promise((resolve) => {
-      const sub = this.relay.sub(filters);
-
-      sub.on('event', (event: Event) => {
-        data.push(event);
-      });
-
-      sub.on('eose', () => {
-        resolve(data);
-      });
-    });
+  public async list(filters: Filter[]): Promise<Event[]> {
+    return this.pool.list(this.urls, filters);
   }
 
   public async close(): Promise<void> {
-    return this.relay.close();
+    try {
+      await this.pool.close();
+    } catch {
+      // ignore errors
+    }
   }
 }

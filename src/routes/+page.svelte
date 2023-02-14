@@ -1,8 +1,31 @@
 <script lang="ts">
+  import { onMount, onDestroy } from 'svelte';
+  import { browser } from '$app/environment';
   import { TabGroup, Tab } from '@skeletonlabs/skeleton';
   import RegionTabPanel from '../components/RegionTabPanel.svelte';
+  import AsyncRelay from '../lib/AsyncRelay';
+  import { globalRegion, jpRegion } from '../entities/Regions';
 
+  const regions = [globalRegion, jpRegion];
   let regionTab = 0;
+  let relays = regions.map((region) => new AsyncRelay(region.relays));
+
+  $: selectedRegion = regions[regionTab];
+  $: selectedRelay = relays[regionTab];
+
+  onMount(async () => {
+    if (browser) {
+      const promises = relays.map((relay) => relay.connect());
+      await Promise.all(promises);
+    }
+  });
+
+  onDestroy(async () => {
+    if (browser) {
+      const promises = relays.map((relay) => relay.close());
+      await Promise.all(promises);
+    }
+  });
 </script>
 
 <svelte:head>
@@ -19,14 +42,16 @@
 <p>What's trending on <a href="https://nostr.com">Nostr</a>?</p>
 
 <TabGroup>
-  <Tab bind:group={regionTab} name="global" value={0}>Global</Tab>
-  <Tab bind:group={regionTab} name="jp" value={1}>JP</Tab>
+  {#each regions as region, i}
+    <Tab bind:group={regionTab} name={region.normalizedName()} value={i}>{region.name}</Tab>
+  {/each}
 
   <svelte:fragment slot="panel">
+    <!-- FIXME: watch regionTab changes -->
     {#if regionTab === 0}
-      <RegionTabPanel region="global" relayUrl="wss://relay.damus.io" />
-    {:else if regionTab === 1}
-      <RegionTabPanel region="jp" relayUrl="wss://relay-jp.nostr.wirednet.jp" />
+      <RegionTabPanel region={selectedRegion} relay={selectedRelay} />
+    {:else}
+      <RegionTabPanel region={selectedRegion} relay={selectedRelay} />
     {/if}
   </svelte:fragment>
 </TabGroup>
