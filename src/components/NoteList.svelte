@@ -32,4 +32,10 @@
       <NoteListItem {note} />
     {/if}
   </div>
+{:else}
+  <div class="alert variant-ghost-warning my-8">
+    <div class="alert-message">
+      <p>No data found &#128064;</p>
+    </div>
+  </div>
 {/each}
