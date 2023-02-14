@@ -52,6 +52,13 @@ describe('safePicture', () => {
     expect(profile.safePicture()).toBeUndefined();
   });
 
+  it('returns picture when picture is a data url', () => {
+    const picture =
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2NgYGD4DwABBAEAcCBlCwAAAABJRU5ErkJggg==';
+    const profile = new Profile(undefined, 'name', 'Display Name', picture, '', 'npub');
+    expect(profile.safePicture()).toBe(picture);
+  });
+
   it('returns trimmed url when picture is valid', () => {
     const profile = new Profile(
       undefined,

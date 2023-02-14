@@ -29,6 +29,10 @@ export default class Profile {
       return undefined;
     }
 
+    if (this.picture.startsWith('data:image')) {
+      return this.picture;
+    }
+
     try {
       const url = new URL(this.picture);
       if (!url.protocol.startsWith('http')) {
