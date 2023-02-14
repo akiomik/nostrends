@@ -20,10 +20,9 @@ export default class NoteLoader {
 
       const noteEvents = await relay.list([{ ids: noteIds }]);
       const pubkeys = NoteLoader.uniq(noteEvents.map((note) => note.pubkey));
-      const profileEvents = await relay.list([{ authors: pubkeys, kinds: [0] }]);
-      const profileEventByPubkey = Object.fromEntries(
-        profileEvents.map((profile) => [profile.pubkey, profile])
-      );
+      const profileEvents = await relay.profiles(pubkeys);
+      const profileEventEntries = profileEvents.map((event) => [event.pubkey, event]);
+      const profileEventByPubkey = Object.fromEntries(profileEventEntries);
 
       notes = noteEvents.reduce((acc: Note[], event: Event) => {
         if (event.id !== undefined) {
