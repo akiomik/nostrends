@@ -1,31 +1,19 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
-  import { browser } from '$app/environment';
   import { TabGroup, Tab } from '@skeletonlabs/skeleton';
-  import RegionTabPanel from '../components/RegionTabPanel.svelte';
-  import AsyncRelay from '../lib/AsyncRelay';
-  import { globalRegion, jpRegion } from '../entities/Regions';
+  import type Note from '../entities/Note';
+  import type Region from '../entities/Region';
+  import LoadingSpinner from '../components/LoadingSpinner.svelte';
+  import NoteList from '../components/NoteList.svelte';
 
-  const regions = [globalRegion, jpRegion];
+  export let data: {
+    regions: Region[];
+    notesByRegion: { [key: string]: Promise<Note[]> | undefined };
+  };
+
   let regionTab = 0;
-  let relays = regions.map((region) => new AsyncRelay(region.relays));
 
-  $: selectedRegion = regions[regionTab];
-  $: selectedRelay = relays[regionTab];
-
-  onMount(async () => {
-    if (browser) {
-      const promises = relays.map((relay) => relay.connect());
-      await Promise.all(promises);
-    }
-  });
-
-  onDestroy(async () => {
-    if (browser) {
-      const promises = relays.map((relay) => relay.close());
-      await Promise.all(promises);
-    }
-  });
+  $: selectedRegion = data.regions[regionTab];
+  $: selectedNotes = data.notesByRegion[selectedRegion.name];
 </script>
 
 <svelte:head>
@@ -42,16 +30,22 @@
 <p>What's trending on <a href="https://nostr.com">Nostr</a>?</p>
 
 <TabGroup>
-  {#each regions as region, i}
-    <Tab bind:group={regionTab} name={region.normalizedName()} value={i}>{region.name}</Tab>
+  {#each data.regions as region, i}
+    <Tab bind:group={regionTab} name={region.normalizedName()} value={i}>
+      {region.name}
+    </Tab>
   {/each}
 
   <svelte:fragment slot="panel">
-    <!-- FIXME: watch regionTab changes -->
-    {#if regionTab === 0}
-      <RegionTabPanel region={selectedRegion} relay={selectedRelay} />
+    {#if selectedNotes}
+      <!-- FIXME: watch regionTab changes -->
+      {#await data.notesByRegion[data.regions[regionTab].name]}
+        <LoadingSpinner />
+      {:then notes}
+        <NoteList {notes} />
+      {/await}
     {:else}
-      <RegionTabPanel region={selectedRegion} relay={selectedRelay} />
+      <LoadingSpinner />
     {/if}
   </svelte:fragment>
 </TabGroup>
