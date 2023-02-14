@@ -1,11 +1,31 @@
 <script lang="ts">
+  import { onMount, onDestroy } from 'svelte';
+  import { browser } from '$app/environment';
   import { TabGroup, Tab } from '@skeletonlabs/skeleton';
   import RegionTabPanel from '../components/RegionTabPanel.svelte';
+  import AsyncRelay from '../lib/AsyncRelay';
   import { globalRegion, jpRegion } from '../entities/Regions';
 
   const regions = [globalRegion, jpRegion];
   let regionTab = 0;
+  let relays = regions.map((region) => new AsyncRelay(region.relays));
+
   $: selectedRegion = regions[regionTab];
+  $: selectedRelay = relays[regionTab];
+
+  onMount(async () => {
+    if (browser) {
+      const promises = relays.map((relay) => relay.connect());
+      await Promise.all(promises);
+    }
+  });
+
+  onDestroy(async () => {
+    if (browser) {
+      const promises = relays.map((relay) => relay.close());
+      await Promise.all(promises);
+    }
+  });
 </script>
 
 <svelte:head>
@@ -29,9 +49,9 @@
   <svelte:fragment slot="panel">
     <!-- FIXME: watch regionTab changes -->
     {#if regionTab === 0}
-      <RegionTabPanel region={selectedRegion} />
+      <RegionTabPanel region={selectedRegion} relay={selectedRelay} />
     {:else}
-      <RegionTabPanel region={selectedRegion} />
+      <RegionTabPanel region={selectedRegion} relay={selectedRelay} />
     {/if}
   </svelte:fragment>
 </TabGroup>

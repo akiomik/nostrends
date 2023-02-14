@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount } from 'svelte';
   import { browser } from '$app/environment';
   import type { Event } from 'nostr-tools';
-  import AsyncRelay from '../lib/AsyncRelay';
+  import type AsyncRelay from '../lib/AsyncRelay';
   import { ReactionCountJsonLoader } from '../lib/ReactionCountJsonLoader';
   import type Region from '../entities/Region';
   import Note from '../entities/Note';
@@ -10,8 +10,8 @@
   import LoadingSpinner from './LoadingSpinner.svelte';
 
   export let region: Region;
+  export let relay: AsyncRelay;
 
-  const relay = new AsyncRelay(region.relays);
   let noteEvents: Event[] = [];
   const profileEventByPubkey: { [key: string]: Event } = {};
   const reactionCounts = ReactionCountJsonLoader.loadTopNRank(region, 50);
@@ -21,18 +21,11 @@
 
   onMount(async () => {
     if (browser) {
-      await relay.connect();
       const noteIds = Object.keys(reactionCounts);
       noteEvents = await relay.list([{ ids: noteIds }]);
       const pubkeys = uniq(noteEvents.map((note) => note.pubkey));
       const profileEvents = await relay.list([{ authors: pubkeys, kinds: [0] }]);
       profileEvents.forEach((profile) => (profileEventByPubkey[profile.pubkey] = profile));
-    }
-  });
-
-  onDestroy(async () => {
-    if (browser) {
-      await relay.close();
     }
   });
 
