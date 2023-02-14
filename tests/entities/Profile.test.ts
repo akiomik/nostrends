@@ -89,6 +89,11 @@ describe('formattedNip05', () => {
     expect(profile.formattedNip05()).toBe('');
   });
 
+  it('returns empty when nip05 is empty', () => {
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, '', 'npub');
+    expect(profile.formattedNip05()).toBe('');
+  });
+
   it('returns domain when nip05 is only domain', () => {
     const name = 'example.com';
     const profile = new Profile(undefined, 'name', 'Display Name', undefined, name, 'npub');
@@ -116,6 +121,11 @@ describe('isNip05Valid', async () => {
 
   it('returns false when nip05 is undefined', async () => {
     const profile = new Profile(undefined, 'name', 'Display Name', undefined, undefined, 'npub');
+    await expect(profile.isNip05Valid()).resolves.toBe(false);
+  });
+
+  it('returns false when nip05 is empty', async () => {
+    const profile = new Profile(undefined, 'name', 'Display Name', undefined, '', 'npub');
     await expect(profile.isNip05Valid()).resolves.toBe(false);
   });
 

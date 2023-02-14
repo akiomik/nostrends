@@ -63,14 +63,14 @@ export default class Profile {
   }
 
   public async isNip05Valid(): Promise<boolean> {
-    if (this.nip05 === undefined) {
+    if (this.nip05 === undefined || this.nip05 === '') {
       return false;
     }
 
     try {
       const res = await nip05.queryProfile(this.nip05);
       return res !== null;
-    } catch (e) {
+    } catch {
       return false;
     }
   }
