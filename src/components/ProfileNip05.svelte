@@ -13,10 +13,10 @@
 {:then valid}
   {#if valid}
     <p class="flex items-center gap-x-1">
-      <span class="text-ellipsis overflow-hidden flex-1">
+      <span class="text-ellipsis overflow-hidden shrink">
         {profile.formattedNip05()}
       </span>
-      <span class="badge-icon variant-ghost-primary">
+      <span class="badge-icon variant-ghost-primary flex-none">
         <FontAwesomeIcon icon={faCheck} />
       </span>
     </p>
