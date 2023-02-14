@@ -11,7 +11,7 @@
 
   export let region: Region;
 
-  const relay = new AsyncRelay(region.relays[0]);
+  const relay = new AsyncRelay(region.relays);
   let noteEvents: Event[] = [];
   const profileEventByPubkey: { [key: string]: Event } = {};
   const reactionCounts = ReactionCountJsonLoader.loadTopNRank(region, 50);
@@ -23,9 +23,9 @@
     if (browser) {
       await relay.connect();
       const noteIds = Object.keys(reactionCounts);
-      noteEvents = await relay.sub([{ ids: noteIds }]);
+      noteEvents = await relay.list([{ ids: noteIds }]);
       const pubkeys = uniq(noteEvents.map((note) => note.pubkey));
-      const profileEvents = await relay.sub([{ authors: pubkeys, kinds: [0] }]);
+      const profileEvents = await relay.list([{ authors: pubkeys, kinds: [0] }]);
       profileEvents.forEach((profile) => (profileEventByPubkey[profile.pubkey] = profile));
     }
   });
