@@ -6,6 +6,7 @@
   import '@fortawesome/fontawesome-svg-core/styles.css';
   import '../app.postcss';
   import Header from '../components/Header.svelte';
+  import Footer from '../components/Footer.svelte';
 </script>
 
 <svelte:head>
@@ -47,12 +48,6 @@
   <svelte:fragment slot="footer">
     <hr />
 
-    <div class="p-8 flex justify-center">
-      <ul class="list-none">
-        <li class="inline">&copy; 2023 Nostrends</li>
-        <li class="inline select-none text-surface-300 cursor-default">・</li>
-        <li class="inline"><a href="https://github.com/akiomik/nostrends">Github</a></li>
-      </ul>
-    </div>
+    <Footer />
   </svelte:fragment>
 </AppShell>
