@@ -44,6 +44,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/svelte-fontawesome": "^0.2.0",
     "linkify-html": "^4.1.0",
