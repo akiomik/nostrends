@@ -1,8 +1,8 @@
 import type { Event } from 'nostr-tools';
-import Note from '../entities/Note';
-import type Region from '../entities/Region';
-import AsyncRelay from './AsyncRelay';
-import { ReactionCountJsonLoader } from './ReactionCountJsonLoader';
+import Note from '$lib/entities/Note';
+import type Region from '$lib/entities/Region';
+import AsyncRelay from '$lib/services/AsyncRelay';
+import { ReactionCountJsonLoader } from '$lib/services/ReactionCountJsonLoader';
 
 export default class NoteLoader {
   private constructor() {

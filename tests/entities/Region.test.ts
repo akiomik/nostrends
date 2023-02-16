@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import Region from '../../src/entities/Region';
+import Region from '$lib/entities/Region';
 
 describe('normalizedName', () => {
   it('returns down-cased name', () => {

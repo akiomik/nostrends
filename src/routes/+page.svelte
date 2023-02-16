@@ -1,9 +1,9 @@
 <script lang="ts">
   import { TabGroup, Tab } from '@skeletonlabs/skeleton';
-  import type Note from '../entities/Note';
-  import type Region from '../entities/Region';
-  import LoadingSpinner from '../components/LoadingSpinner.svelte';
-  import NoteList from '../components/NoteList.svelte';
+  import type Note from '$lib/entities/Note';
+  import type Region from '$lib/entities/Region';
+  import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+  import NoteList from '$lib/components/NoteList.svelte';
 
   export let data: {
     regions: Region[];

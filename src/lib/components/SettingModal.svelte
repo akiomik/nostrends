@@ -1,7 +1,7 @@
 <script lang="ts">
   import { closeModal } from 'svelte-modals';
-  import { settings } from '../stores/settings';
-  import Modal from './Modal.svelte';
+  import { settings } from '$lib/stores/settings';
+  import Modal from '$lib/components/Modal.svelte';
 
   export let isOpen: boolean; // provided by Modals
 </script>

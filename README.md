@@ -11,9 +11,9 @@ npm install
 npm run dev -- --open
 ```
 
-## About `events/*.json`
+## About `events/**/*.json`
 
-A json describing how much a note has been responded to is required in `src/events/`.
+A json describing how much a note has been responded to is required in `src/lib/events/`.
 The format is as follows.
 
 ```js

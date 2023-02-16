@@ -1,7 +1,7 @@
 <script lang="ts">
   import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
   import { faCheck } from '@fortawesome/free-solid-svg-icons';
-  import type Profile from '../entities/Profile';
+  import type Profile from '$lib/entities/Profile';
 
   export let profile: Profile;
 </script>
