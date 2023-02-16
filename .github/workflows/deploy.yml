@@ -24,7 +24,7 @@ jobs:
           aws-region: ap-northeast-1
       - run: npm ci
       - run: npm run build
-      - run: aws s3 sync 's3://nostr-dump/' src/events
+      - run: aws s3 sync 's3://nostr-dump/' src/lib/events
       - run: ls -l src/events/global | wc -l
       - run: ls -l src/events/jp | wc -l
       - uses: amondnet/vercel-action@v20
