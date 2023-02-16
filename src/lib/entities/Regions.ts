@@ -1,4 +1,4 @@
-import Region from './Region';
+import Region from '$lib/entities/Region';
 
 const globalRelays = [
   'wss://brb.io',

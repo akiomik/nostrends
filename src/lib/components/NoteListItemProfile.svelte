@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Avatar } from '@skeletonlabs/skeleton';
-  import type Profile from '../entities/Profile';
-  import ProfileNip05 from './ProfileNip05.svelte';
+  import type Profile from '$lib/entities/Profile';
+  import ProfileNip05 from '$lib/components/ProfileNip05.svelte';
 
   export let profile: Profile | undefined;
 </script>

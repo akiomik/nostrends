@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
-import { globalRegion, jpRegion } from '../entities/Regions';
-import type Note from '../entities/Note';
-import NoteLoader from '../lib/NoteLoader';
+import { globalRegion, jpRegion } from '$lib/entities/Regions';
+import type Note from '$lib/entities/Note';
+import NoteLoader from '$lib/services/NoteLoader';
 
 export async function load() {
   const regions = [globalRegion, jpRegion];

@@ -2,7 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import type { Event } from 'nostr-tools';
 import { nip05 } from 'nostr-tools';
 
-import Profile from '../../src/entities/Profile';
+import Profile from '$lib/entities/Profile';
 
 describe('fromEvent', () => {
   it('returns Profile', () => {

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type Note from '../entities/Note';
-  import { NoteContentFormatter } from '../lib/NoteContentFormatter';
-  import NoteListItemProfile from './NoteListItemProfile.svelte';
-  import ProfileLink from './ProfileLink.svelte';
+  import type Note from '$lib/entities/Note';
+  import { NoteContentFormatter } from '$lib/services/NoteContentFormatter';
+  import NoteListItemProfile from '$lib/components/NoteListItemProfile.svelte';
+  import ProfileLink from '$lib/components/ProfileLink.svelte';
 
   export let note: Note;
 </script>

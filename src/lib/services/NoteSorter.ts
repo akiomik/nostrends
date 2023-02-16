@@ -1,5 +1,5 @@
-import type Note from '../entities/Note';
-import SortOrdering from '../entities/SortOrdering';
+import type Note from '$lib/entities/Note';
+import SortOrdering from '$lib/entities/SortOrdering';
 
 export default class NoteSorter {
   constructor(public notes: Note[]) {}

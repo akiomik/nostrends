@@ -1,4 +1,4 @@
-import nostrTools from '../lib/nostr-tools';
+import nostrTools from '$lib/packages/nostr-tools';
 const { nip19, nip05 } = nostrTools;
 import type { Event } from 'nostr-tools';
 

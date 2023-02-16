@@ -1,4 +1,4 @@
-import type Region from '../entities/Region';
+import type Region from '$lib/entities/Region';
 
 type ReactionCount = { [key: string]: number };
 
@@ -9,7 +9,7 @@ export class ReactionCountJsonLoader {
 
   public static load(region: Region): ReactionCount {
     const reactionCountsByRegion: ReactionCount = {};
-    const eventJsonModules = import.meta.glob(`../events/**/*.json`, { eager: true });
+    const eventJsonModules = import.meta.glob(`$lib/events/**/*.json`, { eager: true });
     Object.entries(eventJsonModules).forEach(([path, mod]) => {
       if (!path.includes(region.normalizedName())) {
         return;

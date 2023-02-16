@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import type { Event } from 'nostr-tools';
 
-import Note from '../../src/entities/Note';
-import Tag from '../../src/entities/Tag';
+import Note from '$lib/entities/Note';
+import Tag from '$lib/entities/Tag';
 
 describe('fromEvent', () => {
   it('returns Note', () => {

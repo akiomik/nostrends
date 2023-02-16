@@ -1,5 +1,5 @@
 import type { Filter, Event } from 'nostr-tools';
-import nostrTools from './nostr-tools';
+import nostrTools from '$lib/packages/nostr-tools';
 const { SimplePool } = nostrTools;
 
 export default class AsyncRelay {

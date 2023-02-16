@@ -3,7 +3,7 @@
   import { openModal } from 'svelte-modals';
   import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
   import { faGear } from '@fortawesome/free-solid-svg-icons';
-  import SettingModal from './SettingModal.svelte';
+  import SettingModal from '$lib/components/SettingModal.svelte';
 
   const showSettingModal = () => openModal(SettingModal);
 </script>
