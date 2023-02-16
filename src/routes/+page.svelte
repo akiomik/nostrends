@@ -7,13 +7,13 @@
 
   export let data: {
     regions: Region[];
-    notesByRegion: { [key: string]: Promise<Note[]> | undefined };
+    asyncNotesByRegion: { [key: string]: Promise<Promise<Note | undefined>[]> | undefined };
   };
 
   let regionTab = 0;
 
   $: selectedRegion = data.regions[regionTab];
-  $: selectedNotes = data.notesByRegion[selectedRegion.name];
+  $: selectedAsyncNotes = data.asyncNotesByRegion[selectedRegion.name];
 </script>
 
 <svelte:head>
@@ -37,15 +37,14 @@
   {/each}
 
   <svelte:fragment slot="panel">
-    {#if selectedNotes}
-      <!-- FIXME: watch regionTab changes -->
-      {#await data.notesByRegion[data.regions[regionTab].name]}
-        <LoadingSpinner />
-      {:then notes}
-        <NoteList {notes} />
-      {/await}
-    {:else}
+    {#await selectedAsyncNotes}
       <LoadingSpinner />
-    {/if}
+    {:then asyncNotes}
+      {#if asyncNotes}
+        <NoteList {asyncNotes} />
+      {:else}
+        <LoadingSpinner />
+      {/if}
+    {/await}
   </svelte:fragment>
 </TabGroup>

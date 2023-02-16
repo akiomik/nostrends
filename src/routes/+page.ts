@@ -5,16 +5,16 @@ import NoteLoader from '$lib/services/NoteLoader';
 
 export async function load() {
   const regions = [globalRegion, jpRegion];
-  const notesByRegion: { [key: string]: Promise<Note[]> } = {};
+  const asyncNotesByRegion: { [key: string]: Promise<Promise<Note | undefined>[]> } = {};
 
   if (browser) {
     regions.forEach((region) => {
-      notesByRegion[region.name] = NoteLoader.load(region);
+      asyncNotesByRegion[region.name] = NoteLoader.load(region);
     });
   }
 
   return {
     regions,
-    notesByRegion
+    asyncNotesByRegion
   };
 }

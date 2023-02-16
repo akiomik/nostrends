@@ -14,7 +14,7 @@ describe('fromEvent', () => {
       created_at: 1676328835,
       tags: [['t', 'nostrends']]
     };
-    const actual = Note.fromEvent(event, undefined, 42);
+    const actual = Note.fromEvent(event);
     const expected = new Note(
       'foobar',
       'Hello, world!',
@@ -22,7 +22,7 @@ describe('fromEvent', () => {
       new Date('2023-02-14T07:53:55+09:00'),
       [new Tag('t', 'nostrends')],
       undefined,
-      42
+      undefined
     );
     expect(actual).toEqual(expected);
   });
@@ -75,5 +75,22 @@ describe('nip19Id', () => {
     const id = '20d60ff68d61d15cd0f7fb3c8975c8c4b874b8406e3ef0163193ed60a18692ef';
     const note = new Note(id, 'foo', 'npub', new Date(), [], undefined, 0);
     expect(note.nip19Id()).toBe('note1yrtqla5dv8g4e58hlv7gjawgcju8fwzqdcl0q933j0kkpgvxjthsdqd937');
+  });
+});
+
+describe('setReactions', () => {
+  it('set reactions', () => {
+    const note = new Note(undefined, 'foo', 'npub', new Date(), [], undefined, undefined);
+    note.setReactions(10);
+    expect(note.reactions).toBe(10);
+  });
+});
+
+describe('setAsyncProfile', () => {
+  it('set asyncProfile', () => {
+    const note = new Note(undefined, 'foo', 'npub', new Date(), [], undefined, undefined);
+    const asyncProfile = Promise.resolve(undefined);
+    note.setAsyncProfile(asyncProfile);
+    expect(note.asyncProfile).toEqual(asyncProfile);
   });
 });

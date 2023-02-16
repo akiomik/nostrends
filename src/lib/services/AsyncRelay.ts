@@ -2,6 +2,9 @@ import type { Filter, Event } from 'nostr-tools';
 import nostrTools from '$lib/packages/nostr-tools';
 const { SimplePool } = nostrTools;
 
+import Note from '$lib/entities/Note';
+import Profile from '$lib/entities/Profile';
+
 export default class AsyncRelay {
   private pool: typeof SimplePool;
 
@@ -19,26 +22,40 @@ export default class AsyncRelay {
     await Promise.race(promises);
   }
 
-  public async list(filters: Filter[]): Promise<Event[]> {
-    return this.pool.list(this.urls, filters);
+  public async getNote(id: string): Promise<Note | undefined> {
+    const filters = [{ ids: [id] }];
+    const event = await this.get(filters);
+    if (event === null || event === undefined) {
+      return undefined;
+    }
+
+    return Note.fromEvent(event);
   }
 
-  public async profiles(pubkeys: string[]): Promise<Event[]> {
-    const filters = [{ authors: pubkeys, kinds: [0] }];
+  public async getProfile(pubkey: string): Promise<Profile | undefined> {
+    const filters = [{ authors: [pubkey], kinds: [0] }];
     const events = await this.list(filters);
-    const data: { [key: string]: Event } = {};
 
-    // Make each pubkey unique by selecting the most recent kind0
-    events.forEach((event) => {
-      const d = data[event.pubkey];
-      if (d && new Date(event.created_at * 1000) <= new Date(d.created_at * 1000)) {
-        return;
+    // Selecting the most recent kind0
+    return events.reduce((acc: Profile | undefined, event: Event) => {
+      const profile = Profile.fromEvent(event);
+      if (acc === undefined || acc.createdAt < profile.createdAt) {
+        return profile;
       }
 
-      data[event.pubkey] = event;
-    });
+      return acc;
+    }, undefined);
+  }
 
-    return Object.values(data);
+  public async get(filters: Filter[]): Promise<Event | undefined> {
+    // NOTE: this.pool.get does not works...
+    // return await this.pool.get(this.urls, filters);
+    const events = await this.pool.list(this.urls, filters);
+    return events[0];
+  }
+
+  public async list(filters: Filter[]): Promise<Event[]> {
+    return this.pool.list(this.urls, filters);
   }
 
   public async close(): Promise<void> {
