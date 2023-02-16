@@ -9,13 +9,17 @@
 
 <div class="card">
   <div class="p-4">
-    {#if note.profile?.id}
-      <ProfileLink profile={note.profile} className="unstyled">
-        <NoteListItemProfile profile={note.profile} />
-      </ProfileLink>
-    {:else}
-      <NoteListItemProfile profile={note.profile} />
-    {/if}
+    {#await note.asyncProfile}
+      <NoteListItemProfile profile={undefined} />
+    {:then profile}
+      {#if profile?.id}
+        <ProfileLink {profile} className="unstyled">
+          <NoteListItemProfile {profile} />
+        </ProfileLink>
+      {:else}
+        <NoteListItemProfile {profile} />
+      {/if}
+    {/await}
 
     <p class="text-ellipsis overflow-hidden line-clamp-8 mt-4">
       {@html NoteContentFormatter.format(note.modifiedContent())}
@@ -25,7 +29,7 @@
   <hr />
 
   <footer class="card-footer flex justify-between p-4">
-    <p>+{note.reactions} reactions &#129305;</p>
+    <p>+{note.reactions || 0} reactions &#129305;</p>
     <p>
       {Intl.DateTimeFormat('ja-JP', { dateStyle: 'medium', timeStyle: 'medium' }).format(
         note.createdAt

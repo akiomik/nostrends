@@ -2,8 +2,8 @@ import nostrTools from '$lib/packages/nostr-tools';
 const { nip19 } = nostrTools;
 import type { Event } from 'nostr-tools';
 
-import Profile from './Profile';
-import Tag from './Tag';
+import type Profile from '$lib/entities/Profile';
+import Tag from '$lib/entities/Tag';
 
 export default class Note {
   constructor(
@@ -12,12 +12,11 @@ export default class Note {
     public pubkey: string,
     public createdAt: Date,
     public tags: Tag[],
-    public profile: Profile | undefined,
-    public reactions: number
+    public asyncProfile: Promise<Profile | undefined> | undefined,
+    public reactions: number | undefined
   ) {}
 
-  public static fromEvent(note: Event, profileOpt: Event | undefined, reactions: number): Note {
-    const profile = profileOpt == undefined ? undefined : Profile.fromEvent(profileOpt);
+  public static fromEvent(note: Event): Note {
     const tags: Tag[] = note.tags
       .map((tag) => Tag.fromEvent(tag))
       .filter((tag: Tag | undefined): tag is Tag => tag !== undefined);
@@ -28,8 +27,8 @@ export default class Note {
       note.pubkey,
       new Date(note.created_at * 1000),
       tags,
-      profile,
-      reactions
+      undefined,
+      undefined
     );
   }
 
@@ -61,5 +60,13 @@ export default class Note {
     }
 
     return nip19.noteEncode(this.id);
+  }
+
+  public setAsyncProfile(asyncProfile: Promise<Profile | undefined>) {
+    this.asyncProfile = asyncProfile;
+  }
+
+  public setReactions(reactions: number) {
+    this.reactions = reactions;
   }
 }

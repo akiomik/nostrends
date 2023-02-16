@@ -1,5 +1,4 @@
-import type { Event } from 'nostr-tools';
-import Note from '$lib/entities/Note';
+import type Note from '$lib/entities/Note';
 import type Region from '$lib/entities/Region';
 import AsyncRelay from '$lib/services/AsyncRelay';
 import { ReactionCountJsonLoader } from '$lib/services/ReactionCountJsonLoader';
@@ -9,41 +8,36 @@ export default class NoteLoader {
     // noop
   }
 
-  public static async load(region: Region): Promise<Note[]> {
+  public static async load(region: Region): Promise<Promise<Note | undefined>[]> {
     const reactionCountsByNoteId = ReactionCountJsonLoader.loadTopNRank(region, 50);
     const noteIds = Object.keys(reactionCountsByNoteId);
     const relay = new AsyncRelay(region.relays);
-    let notes: Note[] = [];
+    const asyncNotes: Promise<Note | undefined>[] = [];
 
     try {
       await relay.connect();
 
-      const noteEvents = await relay.list([{ ids: noteIds }]);
-      const pubkeys = NoteLoader.uniq(noteEvents.map((note) => note.pubkey));
-      const profileEvents = await relay.profiles(pubkeys);
-      const profileEventEntries = profileEvents.map((event) => [event.pubkey, event]);
-      const profileEventByPubkey = Object.fromEntries(profileEventEntries);
+      noteIds.forEach((id) => {
+        asyncNotes.push(
+          relay.getNote(id).then((note: Note | undefined) => {
+            if (note?.id) {
+              const reactions = reactionCountsByNoteId[note.id];
+              note.setReactions(reactions);
+            }
 
-      notes = noteEvents.reduce((acc: Note[], event: Event) => {
-        if (event.id !== undefined) {
-          const note = Note.fromEvent(
-            event,
-            profileEventByPubkey[event.pubkey],
-            reactionCountsByNoteId[event.id]
-          );
-          acc.push(note);
-        }
+            if (note) {
+              const asyncProfile = relay.getProfile(note.pubkey);
+              note.setAsyncProfile(asyncProfile);
+            }
 
-        return acc;
-      }, []);
+            return note;
+          })
+        );
+      });
     } finally {
       await relay.close();
     }
 
-    return notes;
-  }
-
-  private static uniq<T>(xs: T[]): T[] {
-    return Array.from(new Set(xs));
+    return asyncNotes;
   }
 }

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
   import { faArrowDownShortWide } from '@fortawesome/free-solid-svg-icons';
   import type Note from '$lib/entities/Note';
@@ -6,11 +7,29 @@
   import NoteSorter from '$lib/services/NoteSorter';
   import NoteListItem from '$lib/components/NoteListItem.svelte';
   import NoteLink from '$lib/components/NoteLink.svelte';
+  import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 
-  export let notes: Note[] = [];
+  export let asyncNotes: Promise<Note | undefined>[];
 
+  // Due to make notes reactive, use object instead array
+  let notesById: { [key: string]: Note } = {};
+  let processedNoteCount = 0;
   let order = SortOrdering.MostPopular;
+
+  $: notes = Object.values(notesById);
   $: sortedNotes = new NoteSorter(notes).sort(order);
+
+  onMount(() => {
+    asyncNotes.forEach((asyncNote) => {
+      asyncNote.then((note) => {
+        processedNoteCount += 1;
+
+        if (note?.id) {
+          notesById[note.id] = note;
+        }
+      });
+    });
+  });
 </script>
 
 <div class="flex items-center">
@@ -33,9 +52,13 @@
     {/if}
   </div>
 {:else}
-  <div class="alert variant-ghost-warning my-8">
-    <div class="alert-message">
-      <p>No data found &#128064;</p>
+  {#if asyncNotes.length === processedNoteCount}
+    <div class="alert variant-ghost-warning my-8">
+      <div class="alert-message">
+        <p>No data found &#128064;</p>
+      </div>
     </div>
-  </div>
+  {:else}
+    <LoadingSpinner />
+  {/if}
 {/each}
