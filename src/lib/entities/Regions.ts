@@ -5,7 +5,6 @@ const globalRelays = [
   'wss://eden.nostr.land',
   'wss://nos.lol',
   'wss://nostr.mom',
-  'wss://nostr.orangepill.dev',
   'wss://relay.current.fyi',
   'wss://relay.damus.io',
   'wss://relay.snort.social'
