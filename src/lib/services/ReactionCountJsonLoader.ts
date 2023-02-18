@@ -8,7 +8,7 @@ export class ReactionCountJsonLoader {
   }
 
   public static load(region: Region): ReactionCount {
-    const reactionCountsByRegion: ReactionCount = {};
+    const reactionCountById: ReactionCount = {};
     const eventJsonModules = import.meta.glob(`$lib/events/**/*.json`, { eager: true });
     Object.entries(eventJsonModules).forEach(([path, mod]) => {
       if (!path.includes(region.normalizedName())) {
@@ -17,15 +17,15 @@ export class ReactionCountJsonLoader {
 
       const { default: reactionCount } = mod as { default: ReactionCount };
       Object.entries(reactionCount).forEach(([k, v]) => {
-        if (reactionCountsByRegion[k]) {
-          reactionCountsByRegion[k] += v;
+        if (reactionCountById[k]) {
+          reactionCountById[k] += v;
         } else {
-          reactionCountsByRegion[k] = v;
+          reactionCountById[k] = v;
         }
       });
     });
 
-    return reactionCountsByRegion;
+    return reactionCountById;
   }
 
   public static loadTopNRank(region: Region, n: number): ReactionCount {
