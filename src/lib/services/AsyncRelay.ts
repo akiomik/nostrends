@@ -24,15 +24,10 @@ export default class AsyncRelay {
   }
 
   public async ensureRelay(url: string, timeoutInMillis: number): Promise<void> {
-    const promise = this.pool
-      .ensureRelay(url)
-      .then(({ url }: { url: string }) => {
-        console.log(`connected to ${url}`);
-        this.availableUrls.push(url);
-      })
-      .catch(() => {
-        // ignore errors
-      });
+    const promise = this.pool.ensureRelay(url).then(({ url }: { url: string }) => {
+      console.log(`connected to ${url}`);
+      this.availableUrls.push(url);
+    });
 
     // support both node and browser types (https://stackoverflow.com/a/56239226/1918609)
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
