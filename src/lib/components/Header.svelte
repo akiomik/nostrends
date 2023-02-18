@@ -3,9 +3,9 @@
   import { openModal } from 'svelte-modals';
   import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
   import { faGear } from '@fortawesome/free-solid-svg-icons';
-  import SettingModal from '$lib/components/SettingModal.svelte';
+  import SettingsModal from '$lib/components/SettingsModal.svelte';
 
-  const showSettingModal = () => openModal(SettingModal);
+  const showSettingsModal = () => openModal(SettingsModal);
 </script>
 
 <AppBar>
@@ -19,7 +19,7 @@
   </svelte:fragment>
 
   <svelte:fragment slot="trail">
-    <button class="btn-icon" on:click={showSettingModal}>
+    <button class="btn-icon" on:click={showSettingsModal}>
       <FontAwesomeIcon icon={faGear} title="Open settings" />
     </button>
   </svelte:fragment>
