@@ -12,7 +12,7 @@
   <svelte:fragment slot="lead">
     <a href="/">
       <span class="flex items-center">
-        <img src="/favicon.svg" alt="logo" class="h-8 mr-1" />
+        <img src="/favicon.svg" alt="Nostrends icon" class="h-10 mr-1" width="40" height="40" />
         Nostrends
       </span>
     </a>
