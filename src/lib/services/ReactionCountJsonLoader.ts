@@ -10,6 +10,8 @@ export class ReactionCountJsonLoader {
   public static load(region: Region): ReactionCount {
     const reactionCountById: ReactionCount = {};
     const eventJsonModules = import.meta.glob(`$lib/events/**/*.json`, { eager: true });
+    let latestJsonName: string | undefined;
+
     Object.entries(eventJsonModules).forEach(([path, mod]) => {
       if (!path.includes(region.normalizedName())) {
         return;
@@ -23,7 +25,16 @@ export class ReactionCountJsonLoader {
           reactionCountById[k] = v;
         }
       });
+
+      if (latestJsonName === undefined || latestJsonName < path) {
+        latestJsonName = path;
+      }
     });
+
+    const noteIdCount = Object.keys(reactionCountById).length;
+    const jsonCount = Object.keys(eventJsonModules).length;
+    console.log(`[${region.name}] ${jsonCount} json files are loaded contains ${noteIdCount}`);
+    console.log(`[${region.name}] The latest json file is ${latestJsonName}.`);
 
     return reactionCountById;
   }
