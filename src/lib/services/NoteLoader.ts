@@ -14,25 +14,27 @@ export default class NoteLoader {
     const relay = new AsyncRelay(region.relays);
     const asyncNotes: Promise<Note | undefined>[] = [];
 
+    console.log(`[${region.name}] ${noteIds.length} notes are loading.`);
+
     try {
       await relay.connect();
 
       noteIds.forEach((id) => {
-        asyncNotes.push(
-          relay.getNote(id).then((note: Note | undefined) => {
-            if (note?.id) {
-              const reactions = reactionCountsByNoteId[note.id];
-              note.setReactions(reactions);
-            }
+        const asyncNote = relay.getNote(id).then((note: Note | undefined) => {
+          if (note?.id) {
+            const reactions = reactionCountsByNoteId[note.id];
+            note.setReactions(reactions);
+          }
 
-            if (note) {
-              const asyncProfile = relay.getProfile(note.pubkey);
-              note.setAsyncProfile(asyncProfile);
-            }
+          if (note) {
+            const asyncProfile = relay.getProfile(note.pubkey);
+            note.setAsyncProfile(asyncProfile);
+          }
 
-            return note;
-          })
-        );
+          return note;
+        });
+
+        asyncNotes.push(asyncNote);
       });
     } finally {
       await relay.close();
