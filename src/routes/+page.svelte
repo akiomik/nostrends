@@ -4,6 +4,7 @@
   import type Region from '$lib/entities/Region';
   import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
   import NoteList from '$lib/components/NoteList.svelte';
+  import ExternalLink from '$lib/components/ExternalLink.svelte';
 
   export let data: {
     regions: Region[];
@@ -27,7 +28,7 @@
 
 <h1>Nostrends</h1>
 
-<p>What's trending on <a href="https://nostr.com">Nostr</a>?</p>
+<p>What's trending on <ExternalLink href="https://nostr.com">Nostr</ExternalLink>?</p>
 
 <TabGroup>
   {#each data.regions as region, i}

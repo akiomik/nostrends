@@ -44,7 +44,7 @@
 {#each sortedNotes as note}
   <div class="my-8">
     {#if note.id}
-      <NoteLink {note} className="unstyled">
+      <NoteLink {note} class="unstyled">
         <NoteListItem {note} />
       </NoteLink>
     {:else}

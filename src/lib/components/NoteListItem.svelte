@@ -13,7 +13,7 @@
       <NoteListItemProfile profile={undefined} />
     {:then profile}
       {#if profile?.id}
-        <ProfileLink {profile} className="unstyled">
+        <ProfileLink {profile} class="unstyled">
           <NoteListItemProfile {profile} />
         </ProfileLink>
       {:else}
