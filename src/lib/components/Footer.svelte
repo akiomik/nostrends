@@ -6,16 +6,14 @@
 
 <div class="p-8 flex justify-center">
   <ul class="list-none">
-    <li class="inline">&copy; 2023 Nostrends</li>
-    <li class="inline select-none text-surface-300 cursor-default">・</li>
-    <li class="inline">
+    <li class="inline after:content-['・'] after:text-surface-300">&copy; 2023 Nostrends</li>
+    <li class="inline after:content-['・'] after:text-surface-300">
       <a href="https://github.com/akiomik/nostrends" class="unstyled">
         <FontAwesomeIcon icon={faGithub} />
       </a>
     </li>
-    <li class="inline select-none text-surface-300 cursor-default">・</li>
     <li class="inline">
-      <a href="lightning:humidnight79@walletofsatoshi.com" class="unstyled">
+      <a href="lightning:akiomik@stacker.news" class="unstyled">
         <FontAwesomeIcon icon={faBolt} />
       </a>
     </li>
