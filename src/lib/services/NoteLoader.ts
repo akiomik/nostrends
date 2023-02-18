@@ -37,7 +37,8 @@ export default class NoteLoader {
         asyncNotes.push(asyncNote);
       });
     } finally {
-      await relay.close();
+      // TODO: close connections when all promises are resolved
+      // await relay.close();
     }
 
     return asyncNotes;

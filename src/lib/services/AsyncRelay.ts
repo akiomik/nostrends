@@ -7,19 +7,42 @@ import Profile from '$lib/entities/Profile';
 
 export default class AsyncRelay {
   private pool: typeof SimplePool;
+  private availableUrls: string[] = [];
 
   constructor(public urls: string[]) {
     this.pool = new SimplePool();
   }
 
-  public async connect(): Promise<void> {
+  public async connect(timeoutInMillis = 1000): Promise<void> {
     const promises = this.urls.map((url) => {
-      return this.pool.ensureRelay(url).catch(() => {
-        // ignore errors
+      return this.ensureRelay(url, timeoutInMillis).catch(() => {
+        // ignore connection and timeout errors
       });
     });
 
-    await Promise.race(promises);
+    await Promise.all(promises);
+  }
+
+  public async ensureRelay(url: string, timeoutInMillis: number): Promise<void> {
+    const promise = this.pool
+      .ensureRelay(url)
+      .then(({ url }: { url: string }) => {
+        console.log(`connected to ${url}`);
+        this.availableUrls.push(url);
+      })
+      .catch(() => {
+        // ignore errors
+      });
+
+    // support both node and browser types (https://stackoverflow.com/a/56239226/1918609)
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    const timeout = new Promise((_resolve, reject) => {
+      timeoutId = setTimeout(() => reject(), timeoutInMillis);
+    }).finally(() => {
+      clearTimeout(timeoutId);
+    });
+
+    return Promise.race([promise, timeout]);
   }
 
   public async getNote(id: string): Promise<Note | undefined> {
@@ -49,17 +72,18 @@ export default class AsyncRelay {
 
   public async get(filters: Filter[]): Promise<Event | undefined> {
     // NOTE: this.pool.get does not works...
-    // return await this.pool.get(this.urls, filters);
-    const events = await this.pool.list(this.urls, filters);
+    // return await this.pool.get(this.availableUrls, filters);
+    const events = await this.list(filters);
     return events[0];
   }
 
   public async list(filters: Filter[]): Promise<Event[]> {
-    return this.pool.list(this.urls, filters);
+    return this.pool.list(this.availableUrls, filters);
   }
 
   public async close(): Promise<void> {
     try {
+      this.availableUrls = [];
       await this.pool.close();
     } catch {
       // ignore errors
