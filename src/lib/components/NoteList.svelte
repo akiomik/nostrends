@@ -33,7 +33,7 @@
 </script>
 
 <div class="flex items-center">
-  <FontAwesomeIcon icon={faArrowDownShortWide} class="mr-4" />
+  <FontAwesomeIcon icon={faArrowDownShortWide} class="mr-4" title="Sort" />
   <select class="select" bind:value={order}>
     <option value="most-popular">Most popular</option>
     <option value="recently-posted">Recently posted</option>
@@ -44,7 +44,7 @@
 {#each sortedNotes as note}
   <div class="my-8">
     {#if note.id}
-      <NoteLink {note} className="unstyled">
+      <NoteLink {note} class="unstyled">
         <NoteListItem {note} />
       </NoteLink>
     {:else}

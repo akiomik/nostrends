@@ -7,7 +7,7 @@
 </script>
 
 <Modal {isOpen}>
-  <h2 class="mb-8">Setting</h2>
+  <h2 class="mb-8">Settings</h2>
 
   <label class="label">
     <input type="checkbox" class="checkbox" bind:checked={$settings.isOpenLinkWithApp} />

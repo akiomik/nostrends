@@ -1,9 +1,11 @@
 <script lang="ts">
   import { settings } from '$lib/stores/settings';
   import type Note from '$lib/entities/Note';
+  import ExternalLink from '$lib/components/ExternalLink.svelte';
 
   export let note: Note;
-  export let className = '';
+  let className = '';
+  export { className as class };
 
   $: isOpenLinkWithApp = $settings.isOpenLinkWithApp;
   $: href = isOpenLinkWithApp
@@ -11,6 +13,6 @@
     : `https://snort.social/e/${note.nip19Id()}`;
 </script>
 
-<a {href} target="_blank" rel="noreferrer" class={className}>
+<ExternalLink {href} class={className}>
   <slot />
-</a>
+</ExternalLink>

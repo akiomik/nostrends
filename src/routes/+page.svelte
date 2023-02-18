@@ -4,6 +4,7 @@
   import type Region from '$lib/entities/Region';
   import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
   import NoteList from '$lib/components/NoteList.svelte';
+  import ExternalLink from '$lib/components/ExternalLink.svelte';
 
   export let data: {
     regions: Region[];
@@ -17,17 +18,17 @@
 </script>
 
 <svelte:head>
-  <title>Nostrends</title>
+  <title>Nostrends | What's trending on Nostr?</title>
   <meta name="description" content="What's trending on Nostr?" />
   <meta name="keywords" content="nostr,trends,notes,damus,snort" />
   <meta property="og:url" content="https://nostrends.vercel.app" />
-  <meta property="og:title" content="Nostrends" />
+  <meta property="og:title" content="Nostrends | What's trending on Nostr?" />
   <meta property="og:description" content="What's trending on Nostr?" />
 </svelte:head>
 
 <h1>Nostrends</h1>
 
-<p>What's trending on <a href="https://nostr.com">Nostr</a>?</p>
+<p>What's trending on <ExternalLink href="https://nostr.com">Nostr</ExternalLink>?</p>
 
 <TabGroup>
   {#each data.regions as region, i}

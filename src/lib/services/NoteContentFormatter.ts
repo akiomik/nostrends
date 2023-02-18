@@ -58,7 +58,7 @@ export class NoteContentFormatter {
         }
 
         if (tagName === 'img') {
-          return `<img src=${src} class="my-4">`;
+          return `<img src=${src} class="my-4" alt="Embed image link" />`;
         } else {
           return `<${tagName}${attrString}>${content}</${tagName}>`;
         }

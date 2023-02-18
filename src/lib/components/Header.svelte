@@ -3,24 +3,24 @@
   import { openModal } from 'svelte-modals';
   import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
   import { faGear } from '@fortawesome/free-solid-svg-icons';
-  import SettingModal from '$lib/components/SettingModal.svelte';
+  import SettingsModal from '$lib/components/SettingsModal.svelte';
 
-  const showSettingModal = () => openModal(SettingModal);
+  const showSettingsModal = () => openModal(SettingsModal);
 </script>
 
 <AppBar>
   <svelte:fragment slot="lead">
     <a href="/">
       <span class="flex items-center">
-        <img src="/favicon.svg" alt="logo" class="h-8 mr-1" />
+        <img src="/favicon.svg" alt="Nostrends icon" class="h-10 mr-1" width="40" height="40" />
         Nostrends
       </span>
     </a>
   </svelte:fragment>
 
   <svelte:fragment slot="trail">
-    <button class="btn-icon" on:click={showSettingModal}>
-      <FontAwesomeIcon icon={faGear} />
+    <button class="btn-icon" on:click={showSettingsModal}>
+      <FontAwesomeIcon icon={faGear} title="Open settings" />
     </button>
   </svelte:fragment>
 </AppBar>
