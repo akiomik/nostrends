@@ -17,11 +17,11 @@
 </script>
 
 <svelte:head>
-  <title>Nostrends</title>
+  <title>Nostrends | What's trending on Nostr?</title>
   <meta name="description" content="What's trending on Nostr?" />
   <meta name="keywords" content="nostr,trends,notes,damus,snort" />
   <meta property="og:url" content="https://nostrends.vercel.app" />
-  <meta property="og:title" content="Nostrends" />
+  <meta property="og:title" content="Nostrends | What's trending on Nostr?" />
   <meta property="og:description" content="What's trending on Nostr?" />
 </svelte:head>
 
