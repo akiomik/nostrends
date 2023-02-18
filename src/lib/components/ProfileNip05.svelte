@@ -17,7 +17,7 @@
         {profile.formattedNip05()}
       </span>
       <span class="badge-icon variant-ghost-primary flex-none">
-        <FontAwesomeIcon icon={faCheck} />
+        <FontAwesomeIcon icon={faCheck} title="Valid NIP-05 identifier" />
       </span>
     </p>
   {:else}

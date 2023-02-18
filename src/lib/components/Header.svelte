@@ -20,7 +20,7 @@
 
   <svelte:fragment slot="trail">
     <button class="btn-icon" on:click={showSettingModal}>
-      <FontAwesomeIcon icon={faGear} />
+      <FontAwesomeIcon icon={faGear} title="Open settings" />
     </button>
   </svelte:fragment>
 </AppBar>
