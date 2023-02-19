@@ -2,6 +2,7 @@
   import { TabGroup, Tab } from '@skeletonlabs/skeleton';
   import type Note from '$lib/entities/Note';
   import type Region from '$lib/entities/Region';
+  import { globalRegion, jpRegion } from '$lib/entities/Regions';
   import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
   import NoteList from '$lib/components/NoteList.svelte';
   import ExternalLink from '$lib/components/ExternalLink.svelte';
