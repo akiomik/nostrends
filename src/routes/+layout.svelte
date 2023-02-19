@@ -1,12 +1,26 @@
 <script>
-  import { AppShell } from '@skeletonlabs/skeleton';
+  import { onMount } from 'svelte';
+  import { AppShell, storeLightSwitch } from '@skeletonlabs/skeleton';
   import { Modals, closeModal } from 'svelte-modals';
+  import { browser } from '$app/environment';
   import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
   import '@skeletonlabs/skeleton/styles/all.css';
   import '@fortawesome/fontawesome-svg-core/styles.css';
   import '../app.postcss';
   import Header from '$lib/components/Header.svelte';
   import Footer from '$lib/components/Footer.svelte';
+
+  onMount(() => {
+    if (browser) {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      storeLightSwitch.subscribe(() => {
+        const classes = document.documentElement.classList;
+        const darkMode = $storeLightSwitch == null ? prefersDark : $storeLightSwitch;
+        darkMode ? classes.add('dark') : classes.remove('dark');
+      });
+    }
+  });
 </script>
 
 <svelte:head>
