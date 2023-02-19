@@ -8,8 +8,16 @@
     <meta name="viewport" content="width=device-width" />
     <script type="text/javascript">
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      let darkMode = prefersDark;
+
       const storeLightSwitch = localStorage.getItem('storeLightSwitch');
-      const darkMode = storeLightSwitch == null ? prefersDark : storeLightSwitch;
+      if (storeLightSwitch) {
+        const value = JSON.parse(storeLightSwitch);
+        if (value != null) {
+          darkMode = value;
+        }
+      }
+
       const classes = document.documentElement.classList;
       darkMode ? classes.add('dark') : classes.remove('dark');
     </script>
