@@ -6,6 +6,13 @@
     <link rel="icon" href="%sveltekit.assets%/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="%sveltekit.assets%/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript">
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const storeLightSwitch = localStorage.getItem('storeLightSwitch');
+      const darkMode = storeLightSwitch == null ? prefersDark : storeLightSwitch;
+      const classes = document.documentElement.classList;
+      darkMode ? classes.add('dark') : classes.remove('dark');
+    </script>
     %sveltekit.head%
   </head>
   <body data-sveltekit-preload-data="hover">
