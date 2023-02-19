@@ -2,11 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Nostrends" />
     <link rel="icon" href="%sveltekit.assets%/favicon.png" type="image/png" />
     <link rel="icon" href="%sveltekit.assets%/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="%sveltekit.assets%/apple-touch-icon.png" />
+    <link rel="dns-prefetch" href="//brb.io" />
+    <link rel="dns-prefetch" href="//eden.nostr.land" />
+    <link rel="dns-prefetch" href="//nos.lol" />
+    <link rel="dns-prefetch" href="//nostr.mom" />
+    <link rel="dns-prefetch" href="//relay.current.fyi" />
+    <link rel="dns-prefetch" href="//relay.damus.io" />
+    <link rel="dns-prefetch" href="//relay.snort.social" />
+    <link rel="dns-prefetch" href="//relay-jp.nostr.wirednet.jp" />
+    <link rel="dns-prefetch" href="//nostr.h3y6e.com" />
+    <link rel="dns-prefetch" href="//nostr.h3z.jp" />
+    <link rel="dns-prefetch" href="//nostr.fediverse.jp" />
+    <link rel="dns-prefetch" href="//nostr.holybea.com" />
+    <link rel="dns-prefetch" href="//nostr-relay.nokotaro.com" />
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+    <link rel="preconnect" href="//www.googletagmanager.com" />
     <meta name="viewport" content="width=device-width" />
-    <script type="text/javascript">
+    <script>
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       let darkMode = prefersDark;
 
@@ -20,6 +38,17 @@
 
       const classes = document.documentElement.classList;
       darkMode ? classes.add('dark') : classes.remove('dark');
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KQC5SVSF6M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-KQC5SVSF6M');
     </script>
     %sveltekit.head%
   </head>

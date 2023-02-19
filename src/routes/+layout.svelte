@@ -23,24 +23,6 @@
   });
 </script>
 
-<svelte:head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KQC5SVSF6M"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'G-KQC5SVSF6M');
-  </script>
-
-  <meta property="og:locale" content="en_US" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Nostrends" />
-</svelte:head>
-
 <AppShell>
   <svelte:fragment slot="header">
     <Header />
