@@ -1,21 +1,20 @@
 <script lang="ts">
   import { TabGroup, Tab } from '@skeletonlabs/skeleton';
   import type Note from '$lib/entities/Note';
-  import type Region from '$lib/entities/Region';
-  import { globalRegion, jpRegion } from '$lib/entities/Regions';
+  import type DataSource from '$lib/entities/DataSource';
   import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
   import NoteList from '$lib/components/NoteList.svelte';
   import ExternalLink from '$lib/components/ExternalLink.svelte';
 
   export let data: {
-    regions: Region[];
-    asyncNotesByRegion: { [key: string]: Promise<Promise<Note | undefined>[]> | undefined };
+    dataSources: DataSource[];
+    asyncNotesByDataSource: { [key: string]: Promise<Promise<Note | undefined>[]> | undefined };
   };
 
-  let regionTab = 0;
+  let dataSourceTab = 0;
 
-  $: selectedRegion = data.regions[regionTab];
-  $: selectedAsyncNotes = data.asyncNotesByRegion[selectedRegion.name];
+  $: selectedDataSource = data.dataSources[dataSourceTab];
+  $: selectedAsyncNotes = data.asyncNotesByDataSource[selectedDataSource.normalizedFullName()];
 </script>
 
 <svelte:head>
@@ -32,9 +31,9 @@
 <p>What's trending on <ExternalLink href="https://nostr.com">Nostr</ExternalLink>?</p>
 
 <TabGroup>
-  {#each data.regions as region, i}
-    <Tab bind:group={regionTab} name={region.normalizedName()} value={i}>
-      {region.name}
+  {#each data.dataSources as dataSource, i}
+    <Tab bind:group={dataSourceTab} name={dataSource.normalizedFullName()} value={i}>
+      {dataSource.displayName()}
     </Tab>
   {/each}
 

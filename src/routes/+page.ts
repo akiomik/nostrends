@@ -1,20 +1,26 @@
 import { browser } from '$app/environment';
-import { globalRegion, jpRegion } from '$lib/entities/Regions';
+import { globalWeekly, globalDaily, jpWeekly, jpDaily } from '$lib/entities/DataSources';
 import type Note from '$lib/entities/Note';
 import NoteLoader from '$lib/services/NoteLoader';
+import SummaryNoteLoader from '$lib/services/SummaryNoteLoader';
 
 export async function load() {
-  const regions = [globalRegion, jpRegion];
-  const asyncNotesByRegion: { [key: string]: Promise<Promise<Note | undefined>[]> } = {};
+  const dataSources = [globalWeekly, globalDaily, jpWeekly, jpDaily];
+  const asyncNotesByDataSource: { [key: string]: Promise<Promise<Note | undefined>[]> } = {};
 
   if (browser) {
-    regions.forEach((region) => {
-      asyncNotesByRegion[region.name] = NoteLoader.load(region);
+    dataSources.forEach((dataSource) => {
+      if (dataSource.isSummary) {
+        asyncNotesByDataSource[dataSource.normalizedFullName()] =
+          SummaryNoteLoader.load(dataSource);
+      } else {
+        asyncNotesByDataSource[dataSource.normalizedFullName()] = NoteLoader.load(dataSource);
+      }
     });
   }
 
   return {
-    regions,
-    asyncNotesByRegion
+    dataSources,
+    asyncNotesByDataSource
   };
 }
