@@ -12,7 +12,8 @@
     "test:unit": "vitest",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write .",
-    "sync": "aws s3 sync 's3://nostr-dump' src/lib/events",
+    "sync:events": "aws s3 sync 's3://nostr-dump' src/lib/events",
+    "sync:summaries": "aws s3 sync 's3://nostrends-summary' src/lib/summaries",
     "favicongen": "qlmanage -t -s 512 -o static static/favicon.svg && mv static/favicon.svg.png static/favicon.png",
     "touchicongen": "qlmanage -t -s 180 -o static static/favicon.svg && mv static/favicon.svg.png static/apple-touch-icon.png"
   },

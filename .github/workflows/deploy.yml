@@ -23,8 +23,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
       - run: npm ci
+      - run: npm run sync:events
+      - run: npm run sync:summaries
       - run: npm run build
-      - run: aws s3 sync 's3://nostr-dump/' src/lib/events
       - run: ls -l src/events/global | wc -l
       - run: ls -l src/events/jp | wc -l
       - uses: amondnet/vercel-action@v20
