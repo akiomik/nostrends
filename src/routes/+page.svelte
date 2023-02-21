@@ -30,7 +30,7 @@
 
 <p>What's trending on <ExternalLink href="https://nostr.com">Nostr</ExternalLink>?</p>
 
-<TabGroup>
+<TabGroup regionList="overflow-x-auto">
   {#each data.dataSources as dataSource, i}
     <Tab bind:group={dataSourceTab} name={dataSource.normalizedFullName()} value={i}>
       {dataSource.displayName()}
