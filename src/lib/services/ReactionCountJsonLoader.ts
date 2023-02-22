@@ -33,8 +33,10 @@ export class ReactionCountJsonLoader {
 
     const noteIdCount = Object.keys(reactionCountById).length;
     const jsonCount = Object.keys(eventJsonModules).length;
-    console.log(`[${dataSource.name}] ${jsonCount} json files are loaded contains ${noteIdCount}`);
-    console.log(`[${dataSource.name}] The latest json file is ${latestJsonName}.`);
+    console.log(
+      `[${dataSource.normalizedFullName()}] ${jsonCount} json files are loaded contains ${noteIdCount}`
+    );
+    console.log(`[${dataSource.normalizedFullName()}] The latest json file is ${latestJsonName}.`);
 
     return reactionCountById;
   }

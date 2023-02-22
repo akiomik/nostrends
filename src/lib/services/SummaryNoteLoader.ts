@@ -22,7 +22,7 @@ export default class SummaryNoteLoader {
     const relay = new AsyncRelay(dataSource.relays);
     const asyncNotes: Promise<Note | undefined>[] = [];
 
-    console.log(`[${dataSource.name}] ${noteIds.length} notes are loading.`);
+    console.log(`[${dataSource.normalizedFullName()}] ${noteIds.length} notes are loading.`);
 
     try {
       await relay.connect();
