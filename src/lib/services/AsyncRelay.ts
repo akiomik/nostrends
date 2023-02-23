@@ -13,7 +13,8 @@ export default class AsyncRelay {
     this.pool = new SimplePool();
   }
 
-  public async connect(timeoutInMillis = 1000): Promise<void> {
+  // NOTE: Temporarily increasing the timeout to avoid a bug in Blink :cry:
+  public async connect(timeoutInMillis = 3000): Promise<void> {
     const promises = this.urls.map((url) => {
       return this.ensureRelay(url, timeoutInMillis).catch(() => {
         // ignore connection and timeout errors
