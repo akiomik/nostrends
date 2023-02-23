@@ -1,6 +1,6 @@
 import type Note from '$lib/entities/Note';
 import type DataSource from '$lib/entities/DataSource';
-import AsyncRelay from '$lib/services/AsyncRelay';
+import NostrClient from '$lib/services/NostrClient';
 import globalDailySummary from '$lib/summaries/global/daily.json';
 import jpDailySummary from '$lib/summaries/jp/daily.json';
 import type ReactionCountSummary from '$lib/entities/ReactionCountSummary';
@@ -19,7 +19,7 @@ export default class SummaryNoteLoader {
     }
 
     const noteIds = Object.keys(reactionCountsByNoteId);
-    const relay = new AsyncRelay(dataSource.relays);
+    const relay = new NostrClient(dataSource.relays);
     const asyncNotes: Promise<Note | undefined>[] = [];
 
     console.log(`[${dataSource.normalizedFullName()}] ${noteIds.length} notes are loading.`);

@@ -5,7 +5,7 @@ const { SimplePool } = nostrTools;
 import Note from '$lib/entities/Note';
 import Profile from '$lib/entities/Profile';
 
-export default class AsyncRelay {
+export default class NostrClient {
   private pool: typeof SimplePool;
   private availableUrls: string[] = [];
 

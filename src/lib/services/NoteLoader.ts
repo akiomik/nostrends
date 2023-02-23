@@ -1,6 +1,6 @@
 import type Note from '$lib/entities/Note';
 import type DataSource from '$lib/entities/DataSource';
-import AsyncRelay from '$lib/services/AsyncRelay';
+import NostrClient from '$lib/services/NostrClient';
 import { ReactionCountJsonLoader } from '$lib/services/ReactionCountJsonLoader';
 
 export default class NoteLoader {
@@ -11,7 +11,7 @@ export default class NoteLoader {
   public static async load(dataSource: DataSource): Promise<Promise<Note | undefined>[]> {
     const reactionCountsByNoteId = ReactionCountJsonLoader.loadTopNRank(dataSource, 50);
     const noteIds = Object.keys(reactionCountsByNoteId);
-    const relay = new AsyncRelay(dataSource.relays);
+    const relay = new NostrClient(dataSource.relays);
     const asyncNotes: Promise<Note | undefined>[] = [];
 
     console.log(`[${dataSource.normalizedFullName()}] ${noteIds.length} notes are loading.`);
