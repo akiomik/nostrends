@@ -1,13 +1,10 @@
+import type Region from '$lib/entities/Region';
+
 export default class DataSource {
-  constructor(
-    public name: string,
-    public period: string,
-    public relays: string[],
-    public isSummary = false
-  ) {}
+  constructor(public region: Region, public period: string, public isSummary = false) {}
 
   public normalizedName(): string {
-    return this.name.toLowerCase();
+    return this.region.name.toLowerCase();
   }
 
   public normalizedPeriod(): string {
@@ -19,6 +16,6 @@ export default class DataSource {
   }
 
   public displayName(): string {
-    return `${this.name}/${this.period}`;
+    return `${this.region.name}/${this.period}`;
   }
 }

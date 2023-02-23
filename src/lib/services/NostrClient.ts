@@ -5,23 +5,27 @@ const { SimplePool } = nostrTools;
 import Note from '$lib/entities/Note';
 import Profile from '$lib/entities/Profile';
 
-export default class AsyncRelay {
-  private pool: typeof SimplePool;
+export default class NostrClient {
+  private pool = new SimplePool();
   private availableUrls: string[] = [];
+  private connectionStatus: Promise<void>;
 
-  constructor(public urls: string[]) {
-    this.pool = new SimplePool();
-  }
-
-  // NOTE: Temporarily increasing the timeout to avoid a bug in Blink :cry:
-  public async connect(timeoutInMillis = 3000): Promise<void> {
+  // Increase connection timeout to avoid Blink issue (incl. Chrome, Edge)
+  constructor(public urls: string[], connectionTimeoutInMillis = 3000) {
     const promises = this.urls.map((url) => {
-      return this.ensureRelay(url, timeoutInMillis).catch(() => {
+      return this.ensureRelay(url, connectionTimeoutInMillis).catch(() => {
         // ignore connection and timeout errors
       });
     });
 
-    await Promise.all(promises);
+    this.connectionStatus = Promise.all(promises).then(() => {
+      return;
+    });
+  }
+
+  // NOTE: Temporarily increasing the timeout to avoid a bug in Blink :cry:
+  public async connect(): Promise<void> {
+    return this.connectionStatus;
   }
 
   public async ensureRelay(url: string, timeoutInMillis: number): Promise<void> {

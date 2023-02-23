@@ -30,15 +30,6 @@
 
 <p>What's trending on <ExternalLink href="https://nostr.com">Nostr</ExternalLink>?</p>
 
-<div class="alert variant-ghost-warning my-8">
-  <div class="alert-message">
-    <p>
-      We are currently having issues with Chrome and Edge not being able to browse tabs, please
-      consider using Safari or Firefox &#128546;
-    </p>
-  </div>
-</div>
-
 <TabGroup regionList="overflow-x-auto">
   {#each data.dataSources as dataSource, i}
     <Tab bind:group={dataSourceTab} name={dataSource.normalizedFullName()} value={i}>
