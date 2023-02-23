@@ -9,6 +9,7 @@ const globalRelays = [
   'wss://relay.damus.io',
   'wss://relay.snort.social'
 ];
+const globalRegion = { name: 'Global', relays: globalRelays };
 
 const jpRelays = [
   ...globalRelays,
@@ -17,8 +18,9 @@ const jpRelays = [
   'wss://nostr.holybea.com',
   'wss://nostr-relay.nokotaro.com'
 ];
+const jpRegion = { name: 'JP', relays: jpRelays };
 
-export const globalWeekly = new DataSource('Global', 'Weekly', globalRelays);
-export const jpWeekly = new DataSource('JP', 'Weekly', jpRelays);
-export const globalDaily = new DataSource('Global', 'Daily', globalRelays, true);
-export const jpDaily = new DataSource('JP', 'Daily', jpRelays, true);
+export const globalWeekly = new DataSource(globalRegion, 'Weekly');
+export const jpWeekly = new DataSource(jpRegion, 'Weekly');
+export const globalDaily = new DataSource(globalRegion, 'Daily', true);
+export const jpDaily = new DataSource(jpRegion, 'Daily', true);
